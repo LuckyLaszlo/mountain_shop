@@ -1,7 +1,7 @@
 {
   "name": "boutique_montagne",
   "version": "1.0.0",
-  "description": "Un site de vente de manteaux, et autres articles d'hiver/divers ;).Classe et pas cher !",
+  "description": "Un site de vente de manteaux et autres articles divers/d'hiver ;). Classe et pas cher !",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
