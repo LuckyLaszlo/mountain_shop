@@ -13,10 +13,9 @@
     <link rel="stylesheet" href="src/css/styles.css">
 </head>
 
-<body>
-
+<body ng-app="mountainShop">
     <!--Navbar-->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
+    <nav class="navbar navbar-expand-lg navbar-dark special-color fixed-top">
         <div class="container">
             <a class="navbar-brand" href="#">
                 <img class="img-fluid" id="logo-brand" src="src/img/logo.png"> Mountain Shop
@@ -28,10 +27,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-2">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Home</a>
+                        <a class="nav-link" ui-sref="home" ui-sref-active="active">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Products</a>
+                        <a class="nav-link" ui-sref="products" ui-sref-active="active">Products</a>
                     </li>
                     <li class="nav-item btn-group">
                         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categories
@@ -58,100 +57,9 @@
             </div>
         </div>
     </nav>
-    <!--Mask-->
-    <div class="view view-bg hm-black-light">
-        <div class="full-bg-img flex-center">
-            <div class="row">
-                <div class="col-md-12 animated fadeInUp  flex-center mt-5">
-                    <img src="src/img/brandpage.png" alt="bag" class="img-fluid" id="brandbag">
-                </div>
-                <div class="col-md-12 animated fadeInUp text-white text-center mt-3">
-                    <h2 class="h2-responsive font-bold">Mountain Shop</h2>
-                    <p>Quality gear for mountain lovers!</p>
-                    <a target="_blank" href="https://mdbootstrap.com/material-design-for-bootstrap/" class="btn btn-default btn-lg" rel="nofollow">Get Started</a>
-                </div>
-            </div>
-        </div>
-    </div>
     <!-- Main -->
-    <div class="container-fluid">
-        <div class="divider-new my-3">
-            <h1 class="h1-responsive">Our products</h1>
-        </div>
-        <div class="row">
-            <!--First columnn-->
-            <div class="col-sm-6 col-lg-3 mb-3">
-                <!--Card-->
-                <div class="card wow fadeIn" data-wow-delay="0.2s">
-                    <!--Card image-->
-                    <div class="view hm-zoom flex-center">
-                        <img class="img-fluid" src="src/img/parka.jpg" alt="Card image cap">
-                    </div>
-                    <!--Card content-->
-                    <div class="card-body">
-                        <!--Title-->
-                        <h4 class="card-title text-center">Parka</h4>
-                        <!--Text-->
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-info">Browse more</a>
-                    </div>
-                </div>
-            </div>
-            <!--Second columnn-->
-            <div class="col-sm-6 col-lg-3 mb-3">
-                <!--Card-->
-                <div class="card wow fadeIn" data-wow-delay="0.4s">
-                    <!--Card image-->
-                    <div class="view hm-zoom flex-center">
-                        <img class="img-fluid" src="src/img/bonnet-sherpa.jpg" alt="Card image cap">
-                    </div>
-                    <!--Card content-->
-                    <div class="card-body">
-                        <!--Title-->
-                        <h4 class="card-title text-center">Sherpa Cap</h4>
-                        <!--Text-->
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-info">Browse more</a>
-                    </div>
-                </div>
-            </div>
-            <!--Third columnn-->
-            <div class="col-sm-6 col-lg-3 ml-auto mr-auto mb-3">
-                <!--Card-->
-                <div class="card wow fadeIn" data-wow-delay="0.6s">
-                    <!--Card image-->
-                    <div class="view hm-zoom flex-center">
-                        <img class="img-fluid" src="src/img/gants.jpg" alt="Card image cap">
-                    </div>
-                    <!--Card content-->
-                    <div class="card-body">
-                        <!--Title-->
-                        <h4 class="card-title text-center">Winter gloves</h4>
-                        <!--Text-->
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-info">Browse more</a>
-                    </div>
-                </div>
-            </div>
-            <!--Fourth columnn-->
-            <div class="col-sm-6 col-lg-3 ml-auto mr-auto mb-3">
-                <!--Card-->
-                <div class="card wow fadeIn" data-wow-delay="0.6s">
-                    <!--Card image-->
-                    <div class="view hm-zoom flex-center">
-                        <img class="img-fluid" src="src/img/bag.jpg" alt="Card image cap">
-                    </div>
-                    <!--Card content-->
-                    <div class="card-body">
-                        <!--Title-->
-                        <h4 class="card-title text-center">Bags</h4>
-                        <!--Text-->
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-info">Browse more</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="container-fluid p-0">
+        <ui-view></ui-view>
     </div>
     <!--Footer-->
     <footer class="page-footer text-center center-on-small-only mt-3">
@@ -198,6 +106,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.4.3/js/mdb.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.6/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.min.js"></script>
+    <!-- Mountain Shop -->
+    <script src="dist/js/bundle.js"></script>
+
 </body>
 
 </html>
