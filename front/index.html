@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Material Design Bootstrap</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Material Design Bootstrap -->
+    <link href="css/mdb.min.css" rel="stylesheet">
+
+    <!-- Template styles -->
+    <style rel="stylesheet">
+        /* TEMPLATE STYLES */
+
+        html,
+        body,
+        .view {
+            height: 100%;
+        }
+        /* Navigation*/
+
+        .navbar {
+            background-color: transparent;
+        }
+
+        .scrolling-navbar {
+            -webkit-transition: background .5s ease-in-out, padding .5s ease-in-out;
+            -moz-transition: background .5s ease-in-out, padding .5s ease-in-out;
+            transition: background .5s ease-in-out, padding .5s ease-in-out;
+        }
+
+        .top-nav-collapse {
+            background-color: #1C2331;
+        }
+
+        footer.page-footer {
+            background-color: #1C2331;
+            margin-top: -1px;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .navbar {
+                background-color: #1C2331;
+            }
+        }
+
+        .navbar .btn-group .dropdown-menu a:hover {
+            color: #000 !important;
+        }
+
+        .navbar .btn-group .dropdown-menu a:active {
+            color: #fff !important;
+        }
+        /*Call to action*/
+
+        .flex-center {
+            color: #fff;
+        }
+
+        .view {
+            background: url("https://images.pexels.com/photos/53213/matterhorn-hornligrat-cold-climb-53213.jpeg")no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Pricing</a>
+                    </li>
+                    <li class="nav-item btn-group">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown
+                        </a>
+                        <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+                </ul>
+                <form class="form-inline">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                </form>
+            </div>
+        </div>
+    </nav>
+    <!--Mask-->
+    <div class="view hm-black-light">
+        <div class="full-bg-img flex-center flex-column pt-5">
+            <ul class="animated fadeInUp">
+                <li>
+                    <h1 class="h1-responsive font-bold">Mountain Shop</h1>
+                </li>
+                <li>
+                    <p>Quality gear for the mountain lovers !</p>
+                </li>
+                <li>
+                    <a target="_blank" href="https://mdbootstrap.com/material-design-for-bootstrap/" class="btn btn-default btn-lg" rel="nofollow">Get Started</a>
+                </li>
+            </ul>
+            <!--Second row-->
+            <div class="flex-center">
+                <!--First columnn-->
+                <div class="col-md-3">
+                    <!--Card-->
+                    <div class="card wow fadeIn" data-wow-delay="0.2s">
+
+                        <!--Card image-->
+                        <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Architecture/4-col/img%20(3).jpg" alt="Card image cap">
+
+                        <!--Card content-->
+                        <div class="card-body">
+                            <!--Title-->
+                            <h4 class="card-title">This is title</h4>
+                            <!--Text-->
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <a href="#" class="btn btn-info">Read more</a>
+                        </div>
+
+                    </div>
+                    <!--/.Card-->
+                </div>
+                <!--First columnn-->
+
+                <!--Second columnn-->
+                <div class="col-md-3">
+                    <!--Card-->
+                    <div class="card wow fadeIn" data-wow-delay="0.4s">
+
+                        <!--Card image-->
+                        <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Architecture/4-col/img%20(1).jpg" alt="Card image cap">
+
+                        <!--Card content-->
+                        <div class="card-body">
+                            <!--Title-->
+                            <h4 class="card-title">This is title</h4>
+                            <!--Text-->
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <a href="#" class="btn btn-info">Read more</a>
+                        </div>
+
+                    </div>
+                    <!--/.Card-->
+
+                </div>
+                <!--Second columnn-->
+
+                <!--Third columnn-->
+                <div class="col-md-3">
+                    <!--Card-->
+                    <div class="card wow fadeIn" data-wow-delay="0.6s">
+
+                        <!--Card image-->
+                        <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Architecture/4-col/img%20(4).jpg" alt="Card image cap">
+
+                        <!--Card content-->
+                        <div class="card-body">
+                            <!--Title-->
+                            <h4 class="card-title">This is title</h4>
+                            <!--Text-->
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <a href="#" class="btn btn-info">Read more</a>
+                        </div>
+
+                    </div>
+                    <!--/.Card-->
+                </div>
+                <!--Third columnn-->
+            </div>
+            <!--/.Second row-->
+        </div>
+    </div>
+    <!--Footer-->
+    <footer class="page-footer center-on-small-only mt-0">
+
+        <!--Footer links-->
+        <div class="container-fluid">
+            <div class="row flex-center pb-3">
+                <!--First column-->
+                <div class="col-6 col-md-3">
+                    <h5 class="title mb-3">
+                        <strong>About Mountain Shop</strong>
+                    </h5>
+                    <p>Mountain Shop is an online shop designed for mountain lovers.</p>
+                    <p>We sell various products for all your needs as a mountain lover, you'll find jackets, gloves, hats, scarfs
+                        and much more in our shop.
+                    </p>
+                </div>
+                <div class="col-6 col-md-3 d-flex flex-column flex-center">
+                    <ul class="row d-flex justify-content-center">
+                        <li>
+                            <a target="_blank" class="btn btn-sm primary-color">
+                                <i class="fa fa-facebook"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a target="_blank" class="btn btn-sm default-color">
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a target="_blank" class="btn btn-sm yellow">
+                                <i class="fa fa-instagram"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="row d-flex justify-content-center">
+                        <li class="mr-2">
+                            <i class="fa fa-2x fa-cc-visa primary-color"></i>
+                        </li>
+                        <li class="mr-2">
+                            <i class="fa fa-2x fa-cc-mastercard deep-orange"></i>
+                        </li>
+                        <li>
+                            <i class="fa fa-2x fa-cc-paypal primary-color"></i>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!--Copyright-->
+        <div class="footer-copyright">
+            <div class="container-fluid">
+                © 2017 Copyright:
+                <a target="_blank"> Mountain Shop </a>
+
+            </div>
+        </div>
+    </footer>
+    <!-- SCRIPTS -->
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/popper.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/mdb.min.js"></script>
+</body>
+
+</html>
