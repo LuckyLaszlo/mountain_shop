@@ -10,3 +10,8 @@ gulp.task('scripts', function () {
     .pipe(concat('bundle.js'))
     .pipe(gulp.dest(jsDest));
 });
+
+gulp.task('watch', function () {
+  gulp.watch(jsFiles, ['scripts']);
+});
+
