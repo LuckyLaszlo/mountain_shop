@@ -43,6 +43,18 @@ footer.page-footer {
   height: 300px;
 }
 
+.card-preview img {
+  height: 150px;
+}
+
+.card-preview img:hover {
+  cursor: pointer;
+}
+
+.card-preview {
+  text-align: center;
+}
+
 #logo-brand {
   height: 40px;
 }

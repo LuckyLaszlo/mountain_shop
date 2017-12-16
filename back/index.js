@@ -122,7 +122,8 @@ var productsSchema = new mongoose.Schema({
   name: String,
   brand: String,
   price: Number,
-  message: String
+  message: String,
+  image: String
   // osef : { type: String, match: /^[a-zA-Z0-9-_]+$/ },
 });
 
