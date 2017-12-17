@@ -1,0 +1,20 @@
+<div class="full-height">
+  <div class="container pt-5">
+    <div class="row animated fadeIn pt-5">
+      <div class="col-md-6 pt-5">
+        <div class="view waves-effect waves-light hm-zoom flex-center">
+          <img class="img-fluid" ng-src="src/img/products/{{product.type}}/{{product.image}}.jpg" alt="Card image cap">
+        </div>
+      </div>
+      <div class="col-md-6 pt-5">
+        <h2>{{product.brand}}</h2>
+        <h4>{{product.name}}</h4>
+        <h3>{{product.price + ' $'}}</h3>
+        <p class="pt-5">{{product.message}}</p>
+        <hr>
+        <button class="btn btn-success">Add to cart</button>
+        <button class="btn btn-primary">Go back Shopping</button>
+      </div>
+    </div>
+  </div>
+</div>

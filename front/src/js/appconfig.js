@@ -9,12 +9,15 @@ angular.module('mountainShop').config(function ($stateProvider, $urlRouterProvid
   var productsState = {
     name: 'products',
     url: '/products',
-    component: 'products'
+    component: 'products',
+    params: {
+      category: ''
+    }
   };
   var productDetailsState = {
     name: 'productDetails',
-    url: '/product/:productId',
-    component: 'productDetailsComponent'
+    url: '/product/:productRef',
+    component: 'productDetails'
   };
 
   $stateProvider.state(homeState);

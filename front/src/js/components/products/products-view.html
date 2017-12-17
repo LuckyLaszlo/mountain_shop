@@ -41,7 +41,7 @@
   
       <div class="row col-12 col-md-8 col-lg-9 mt-3 mx-auto">
         <div dir-paginate="product in products | filter:search | orderBy:order | itemsPerPage: pageSize" class="col-sm-6 col-lg-4 animated fadeIn mb-3">
-          <a href="#">
+          <a ui-sref="productDetails({productRef: product.ref})">
             <div class="card card-preview">
               <div class="view hm-zoom flex-center">
                 <img class="img-fluid" ng-src="src/img/products/{{product.type}}/{{product.image}}.jpg" alt="Card image cap">

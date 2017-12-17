@@ -10,12 +10,15 @@ angular.module('mountainShop').config(function ($stateProvider, $urlRouterProvid
   var productsState = {
     name: 'products',
     url: '/products',
-    component: 'products'
+    component: 'products',
+    params: {
+      category: ''
+    }
   };
   var productDetailsState = {
     name: 'productDetails',
-    url: '/product/:productId',
-    component: 'productDetailsComponent'
+    url: '/product/:productRef',
+    component: 'productDetails'
   };
 
   $stateProvider.state(homeState);
@@ -26,7 +29,7 @@ angular.module('mountainShop').config(function ($stateProvider, $urlRouterProvid
 angular.module('mountainShop').config(function (paginationTemplateProvider) {
   paginationTemplateProvider.setPath('src/js/dirPagination.tpl.html');
 });
-angular.module('mountainShop').controller('shopController', function($scope){
+angular.module('mountainShop').controller('shopController', function ($scope, $state, $http){
 
 });
 /**
@@ -672,23 +675,33 @@ angular.module('mountainShop').component('home', {
   templateUrl: 'src/js/components/home/home-view.html',
   controller: 'homeController'
 });
-angular.module('mountainShop').controller('homeController', function ($scope, $timeout) {
+angular.module('mountainShop').controller('homeController', function ($scope, $state, $http) {
   
 });
 angular.module('mountainShop').component('productDetails', {
-  templateUrl: 'src/js/components/products/product-details-view.html',
+  templateUrl: 'src/js/components/product-details/product-details-view.html',
   controller: 'productDetailsController'
 });
-angular.module('mountainShop').controller('productDetailsController', function ($scope, $timeout) {
-
+angular.module('mountainShop').controller('productDetailsController', function ($scope, $state, $http) {
+  $scope.product = {
+    ref: 24653,
+    type: 'Jackets-Coats',
+    name: 'Benton Parka',
+    brand: 'TIMBERLAND',
+    price: 250,
+    message: "Short Parka. With it 2 in 1 model, it is very fonctional : both levels can be worn together or separatly, according to outside weather.",
+    image: 'parka-benton'
+  };
 });
 angular.module('mountainShop').component('products', {
   templateUrl: 'src/js/components/products/products-view.html',
   controller: 'productsController'
 });
-angular.module('mountainShop').controller('productsController', function ($scope, $filter) {
+angular.module('mountainShop').controller('productsController', function ($scope, $state, $stateParams, $http, $filter) {
   $scope.currentPage = 1;
   $scope.pageSize = 8;
+  $scope.search = {type: '', brand: ''};
+  $scope.search.type = $stateParams.category;
 
   $scope.resetSearch = function(){
     $scope.search = {};

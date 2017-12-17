@@ -1,6 +1,8 @@
-angular.module('mountainShop').controller('productsController', function ($scope, $filter) {
+angular.module('mountainShop').controller('productsController', function ($scope, $state, $stateParams, $http, $filter) {
   $scope.currentPage = 1;
   $scope.pageSize = 8;
+  $scope.search = {type: '', brand: ''};
+  $scope.search.type = $stateParams.category;
 
   $scope.resetSearch = function(){
     $scope.search = {};
