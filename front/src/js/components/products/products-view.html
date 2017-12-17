@@ -3,7 +3,7 @@
     <!--Page heading-->
     <div class="row mt-5">
       <div class="col-md-12">
-        <h1 class="h1-responsive">Products 
+        <h1 class="h1-responsive">Products
           <small class="text-muted"> all you need</small>
         </h1>
       </div>
@@ -12,13 +12,13 @@
     <div class="row container d-flex align-items-center jumbotron mx-auto">
       <div class="mx-3">
         <label for="">Category: </label>
-          <select ng-model="search.type">
-            <option value="">All</option>
-            <option value="jacket">Jackets and Coats</option>
-            <option value="hat">Hats and Caps</option>
-            <option value="gloves">Gloves</option>
-            <option value="bag">Bags</option>
-          </select>
+        <select ng-model="search.type">
+          <option value="">All</option>
+          <option value="jacket">Jackets and Coats</option>
+          <option value="hat">Hats and Caps</option>
+          <option value="gloves">Gloves</option>
+          <option value="bag">Bags</option>
+        </select>
       </div>
       <div class="mx-3">
         <label for="">Brand: </label>
@@ -26,11 +26,11 @@
       </div>
       <div class="mx-3">
         <label for="">Price: </label>
-          <select ng-model="order">
-            <option value="">Default</option>
-            <option value="-price">Desc</option>
-            <option value="+price">Asc</option>
-          </select>
+        <select ng-model="order">
+          <option value="">Default</option>
+          <option value="-price">Desc</option>
+          <option value="+price">Asc</option>
+        </select>
       </div>
     </div>
     <!--First row-->
@@ -45,14 +45,14 @@
               <h4 class="card-title">{{product.brand}}</h4>
               <p class="card-text">{{product.name}}</p>
             </div>
+        </a>
+        <div class="card-footer">
+          {{product.price + '$'}}
+          <a class="tooltip-trigger">
+            <i class="fa fa-lg red-text-hover fa-shopping-cart"></i>
           </a>
-            <div class="card-footer">
-               {{product.price + '$'}}
-              <a class="tooltip-trigger">
-                <i class="fa fa-lg red-text-hover fa-shopping-cart"></i>
-              </a>
-            </div>
-          </div>
+        </div>
+        </div>
       </div>
     </div>
 
