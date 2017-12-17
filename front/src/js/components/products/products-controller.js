@@ -1,14 +1,6 @@
-angular.module('mountainShop').controller('productsController', function ($scope) {
+angular.module('mountainShop').controller('productsController', function ($scope, $filter) {
+
   $scope.products = [{
-      ref: 47905,
-      type: 'jacket',
-      name: 'Long Parka',
-      brand: 'CHEVIGNON',
-      price: 340,
-      message: 'This long classic parka is ideal to figth the cold. Combined with a wool pullover, it will bring you the necessary heat through winter.',
-      image: 'parka'
-    },
-    {
       ref: 24653,
       type: 'jacket',
       name: 'Benton Parka',
@@ -16,6 +8,15 @@ angular.module('mountainShop').controller('productsController', function ($scope
       price: 250,
       message: "Short Parka. With it 2 in 1 model, it is very fonctional : both levels can be worn together or separatly, according to outside weather.",
       image: 'parka-benton'
+    },
+    {
+      ref: 47905,
+      type: 'jacket',
+      name: 'Long Parka',
+      brand: 'CHEVIGNON',
+      price: 340,
+      message: 'This long classic parka is ideal to figth the cold. Combined with a wool pullover, it will bring you the necessary heat through winter.',
+      image: 'parka'
     },
     {
       ref: 45482,
@@ -45,5 +46,4 @@ angular.module('mountainShop').controller('productsController', function ($scope
       image: 'beanie-wool-crocodile'
     }
   ];
-
 });
