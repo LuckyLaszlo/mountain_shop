@@ -21,3 +21,7 @@ angular.module('mountainShop').config(function ($stateProvider, $urlRouterProvid
   $stateProvider.state(productsState);
   $stateProvider.state(productDetailsState);
 });
+
+angular.module('mountainShop').config(function (paginationTemplateProvider) {
+  paginationTemplateProvider.setPath('src/js/dirPagination.tpl.html');
+});
