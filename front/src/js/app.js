@@ -1,1 +1,1 @@
-angular.module('mountainShop', ['ui.router']);
+angular.module('mountainShop', ['ui.router', 'angularUtils.directives.dirPagination']);
