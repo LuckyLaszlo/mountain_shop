@@ -8,7 +8,6 @@ mongoose.connect('mongodb://localhost:27017/mountain_shop', { useMongoClient: tr
         console.log("Connected successfully to server with Mongoose");
         console.log("----------------");
         // console.log("Products Seeding Incoming  ( ͡ʘ ͜ʖ ͡ʘ)")
-        // console.log("----------------");
     }
 });
 
@@ -106,19 +105,6 @@ var products = [
     })
 ];
 
-// var done = 0;
-// for (var i = 0; i < products.length; i++) {
-//     products[i].save(function(err, result) {
-//         console.log("i = ", i);
-//         if (i === products.length) {
-//             console.log("Products seeding complete. Yeah (づ｡◕‿◕｡)づ !");
-//             console.log("done = ", done);
-//             console.log("i = ", i);
-//             exit();
-//         }
-//     });
-// }
-
 //Method without "done" variable, he execute the console.log 10 time (the lenght of the array). Why ? 
 //And the products are corectly save in MongoDB... weird ! :s  
 
@@ -133,7 +119,6 @@ var products = [
 // }
 
 //First Method (same as in the vidéo https://www.youtube.com/watch?v=V30Rpqi6kYE)
-
 var done = 0;
 for (var i = 0; i < products.length; i++) {
     products[i].save(function(err, result) {

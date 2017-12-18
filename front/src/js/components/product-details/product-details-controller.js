@@ -5,6 +5,7 @@ angular.module('mountainShop').controller('productDetailsController', function (
     $state.go('products');
   }
 
+  // Useless, A Virer aprés avoir la DB opérationnel
   $scope.product = {
     ref: 24653,
     type: 'Jackets-Coats',

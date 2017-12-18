@@ -9,6 +9,7 @@ angular.module('mountainShop').controller('productsController', function ($scope
     $scope.order = "";
   };
 
+  // Useless, A Virer aprés avoir la DB opérationnel
   $scope.products = [
     {
       ref: 24653,

@@ -54,7 +54,6 @@ function tokenCheck(token) {
   return result;
 }
 
-
 // Probleme Asynchrone
 // function _findUser(x) {
 //  var result = db.collection('customers').find({ email: x}).toArray(function(err, docs){
@@ -64,27 +63,47 @@ function tokenCheck(token) {
 // return result;
 // };
 
+// "property" en tant que "email" ne fonctionne pas : ReferenceError: email is not defined. POURQUOI ?
+// function _look(collection, property, value) {
+//   return db.collection(collection).find({ property: value })
+// };
+
+// test look email, pas convaincue.
+function _lookEmail(collection, value) {
+  return db.collection(collection).find({ email: value })
+};
+
+
 app.get('/products', function (req, res) {
   db.collection('products').find({}).toArray(function (err, docs) {
     res.status(200).send(docs);
   });
 });
 
-app.get('/customer/:id', function (req, res) {
-  var id = req.params.id;
-  db.collection('customers').find({
-    email: id
-  }).toArray(function (err, docs) {
+app.get('/product', function (req, res) {
+  db.collection('products').find({}).toArray(function (err, docs) {
     res.status(200).send(docs[0]);
   });
 });
 
+app.get('/customer/:id', function (req, res) {
+  var id = req.params.id;
+  _lookEmail('customers', id).toArray(function (err, docs) {
+    res.status(200).send(docs[0]);
+  });
+});
+
+// app.get('/customer/:id', function (req, res) {
+//   var id = req.params.id;
+//   db.collection('customers').find({ email: id }).toArray(function (err, docs) {
+//     res.status(200).send(docs[0]);
+//   });
+// });
+
 app.post('/login', function (req, res) {
   var body = req.body;
   if (body.email && body.password) {
-    db.collection('customers').find({
-      email: body.email
-    }).toArray(function (err, docs) {
+    _lookEmail('customers', body.email).toArray(function (err, docs) {
       if (docs[0]) {
         if (docs[0].password == body.password) {
           var newToken = randomToken();
@@ -115,9 +134,7 @@ app.post('/login', function (req, res) {
 app.post('/register', function (req, res) {
   var body = req.body;
   if (body.email && body.password) {
-    db.collection('customers').find({
-      email: body.email
-    }).toArray(function (err, docs) {
+    _lookEmail('customers', body.email).toArray(function (err, docs) {
       if (docs[0]) {
         res.status(409).send({
           message: 'User already exists with email: ' + body.email
@@ -132,7 +149,7 @@ app.post('/register', function (req, res) {
         db.collection('customers').save(newProfile);
 
         res.status(200).send({
-          message: 'User created with success :visage_légèrement_souriant: !'
+          message: '┏(＾▽＾)┛ User created with success !┗(＾▽＾)┓'
         });
       }
     });
