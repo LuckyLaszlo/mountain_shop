@@ -32,31 +32,37 @@ angular.module('mountainShop').config(function ($stateProvider, $urlRouterProvid
 angular.module('mountainShop').config(function (paginationTemplateProvider) {
   paginationTemplateProvider.setPath('src/js/dirPagination.tpl.html');
 });
-angular.module('mountainShop').controller('shopController', function ($scope, $state, $stateParams, $http, MountainModel) {
+angular.module('mountainShop').controller('shopController', function ($scope, $state, $stateParams, $http, $timeout, MountainModel) {
   $scope.login = _login;
   $scope.register = _register;
-  // $scope.auth = '';
-  // $scope.user_email = '';
-  // $scope.auth = localStorage.getItem('auth-token');
-  // $scope.user_email = localStorage.getItem('user-email');
-  // if($scope.auth !== '' && $scope.user_email !== '') $scope.logged = true;
+  $scope.auth = '';
+  $scope.user_email = '';
+  $scope.logged = false;
+  $scope.auth = localStorage.getItem('auth-token');
+  $scope.user_email = localStorage.getItem('user-email');
+  if ($scope.auth !== '' && $scope.user_email !== '') $scope.logged = true;
 
   function _login() {
-    // var logEmail = $scope.logEmail;
-    // var logPassword = $scope.logPassword;
     var data = {
       email: $scope.logEmail,
       password: $scope.logPassword
     };
     MountainModel.login(data).then(
       function (res) {
-        swal({
-          title: 'Success!',
-          text: res.data.message,
-          type: 'success'
-        });
+        $('#modalLogin').modal('hide');
+        $timeout(swal_success, 1000);
+        function swal_success() {
+          swal({
+            title: 'Success!',
+            text: res.data.message,
+            type: 'success',
+            showConfirmButton: false,
+            timer: 2000
+          });
+        }
         localStorage.setItem('auth-token', res.data.token);
         localStorage.setItem('user-email', res.data.email);
+        $scope.logged = true;
       },
       function (res) {
         swal({
@@ -66,6 +72,17 @@ angular.module('mountainShop').controller('shopController', function ($scope, $s
         });
       }
     );
+  }
+
+  function _logout() {
+    localStorage.setItem('auth-token', '');
+    localStorage.setItem('user-email', '');
+    $scope.logged = false;
+    swal({
+      title: 'Oops...',
+      text: res.data.message,
+      type: 'error'
+    });
   }
 
   function _register() {
@@ -78,11 +95,17 @@ angular.module('mountainShop').controller('shopController', function ($scope, $s
       };
       MountainModel.register(data).then(
         function (res) {
-          swal({
-            title: 'Success!',
-            text: res.data.message,
-            type: 'success'
-          });
+          $('#modalRegister').modal('hide');
+          $timeout(swal_success, 1000);
+          function swal_success() {
+            swal({
+              title: 'Success!',
+              text: res.data.message,
+              type: 'success',
+              showConfirmButton: false,
+              timer: 2000
+            });
+          }
         },
         function (res) {
           swal({
@@ -762,6 +785,12 @@ angular.module('mountainShop').component('productDetails', {
   controller: 'productDetailsController'
 });
 angular.module('mountainShop').controller('productDetailsController', function ($scope, $state, $stateParams, $http) {
+  $scope.goBack = goBack;
+
+  function goBack(){
+    $state.go('products');
+  }
+
   $scope.product = {
     ref: 24653,
     type: 'Jackets-Coats',

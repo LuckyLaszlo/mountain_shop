@@ -1,4 +1,10 @@
 angular.module('mountainShop').controller('productDetailsController', function ($scope, $state, $stateParams, $http) {
+  $scope.goBack = goBack;
+
+  function goBack(){
+    $state.go('products');
+  }
+
   $scope.product = {
     ref: 24653,
     type: 'Jackets-Coats',
