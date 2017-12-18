@@ -6,6 +6,7 @@ const url = 'mongodb://localhost:27017/mountain_shop';
 var Product = require('./models/product.js');
 var Customer = require('./models/customer.js');
 var Cart = require('./models/cart.js');
+var tokenList = [];
 
 app.use(function (req, res, next) {
   res.header(`Access-Control-Allow-Origin`, `*`);
@@ -30,14 +31,31 @@ mongoose.connect(url, {
   }
 });
 
-var db = mongoose.connection;
-
 // Deprecated method
 /* mongoose.connect(url, function(err) {
    if (err) { throw err; } else {
      "Instruction diverses"
  } 
  }); */
+
+var db = mongoose.connection;
+
+function randomToken() {
+  var string = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  var result = '';
+  for (var i = 0; i < 32; i++) {
+    result += string[Math.floor(Math.random() * (string.length - 1))];
+  }
+  return result;
+}
+
+function tokenCheck(token) {
+  var result = tokenList.find(function (element) {
+    return element == token;
+  });
+  return result;
+}
+
 
 // Probleme Asynchrone
 // function _findUser(x) {
@@ -71,23 +89,27 @@ app.post('/login', function (req, res) {
     }).toArray(function (err, docs) {
       if (docs[0]) {
         if (docs[0].password == body.password) {
+          var newToken = randomToken();
+          tokenList.push(newToken);
           res.status(200).send({
-            'message': 'Login correct'
+            message: 'Login correct',
+            token: newToken,
+            email: docs[0].email
           });
         } else {
           res.status(412).send({
-            'message': 'Password does not match'
+            message: 'Password does not match'
           });
         }
       } else {
         res.status(404).send({
-          'message': 'No account found with email: ' + body.email
+          message: 'No account found with email: ' + body.email
         });
       }
     });
   } else {
     res.status(412).send({
-      'message': 'You should provide a correct email and a password!'
+      message: 'You should provide a correct email and a password!'
     });
   }
 });

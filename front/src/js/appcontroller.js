@@ -1,6 +1,11 @@
-angular.module('mountainShop').controller('shopController', function ($scope, $state, $stateParams, $http, MountainModel){
+angular.module('mountainShop').controller('shopController', function ($scope, $state, $stateParams, $http, MountainModel) {
   $scope.login = _login;
   $scope.register = _register;
+  // $scope.auth = '';
+  // $scope.user_email = '';
+  // $scope.auth = localStorage.getItem('auth-token');
+  // $scope.user_email = localStorage.getItem('user-email');
+  // if($scope.auth !== '' && $scope.user_email !== '') $scope.logged = true;
 
   function _login() {
     // var logEmail = $scope.logEmail;
@@ -16,6 +21,8 @@ angular.module('mountainShop').controller('shopController', function ($scope, $s
           text: res.data.message,
           type: 'success'
         });
+        localStorage.setItem('auth-token', res.data.token);
+        localStorage.setItem('user-email', res.data.email);
       },
       function (res) {
         swal({
