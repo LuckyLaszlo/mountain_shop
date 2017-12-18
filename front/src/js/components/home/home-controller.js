@@ -1,3 +1,3 @@
-angular.module('mountainShop').controller('homeController', function ($scope, $state, $http) {
-  
+angular.module('mountainShop').controller('homeController', function ($scope, $state, $stateParams, $http) {
+
 });

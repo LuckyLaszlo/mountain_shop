@@ -18,7 +18,10 @@ angular.module('mountainShop').config(function ($stateProvider, $urlRouterProvid
   var productDetailsState = {
     name: 'productDetails',
     url: '/product/:productRef',
-    component: 'productDetails'
+    component: 'productDetails',
+    params: {
+      productRef: null
+    }
   };
 
   $stateProvider.state(homeState);
@@ -29,8 +32,77 @@ angular.module('mountainShop').config(function ($stateProvider, $urlRouterProvid
 angular.module('mountainShop').config(function (paginationTemplateProvider) {
   paginationTemplateProvider.setPath('src/js/dirPagination.tpl.html');
 });
-angular.module('mountainShop').controller('shopController', function ($scope, $state, $http){
+angular.module('mountainShop').controller('shopController', function ($scope, $state, $stateParams, $http, MountainModel){
+  $scope.login = _login;
+  $scope.register = _register;
 
+  function _login() {
+    // var logEmail = $scope.logEmail;
+    // var logPassword = $scope.logPassword;
+    var data = {
+      email: $scope.logEmail,
+      password: $scope.logPassword
+    };
+    MountainModel.login(data).then(
+      function (res) {
+        swal({
+          title: 'Success!',
+          text: res.data.message,
+          type: 'success'
+        });
+      },
+      function (res) {
+        swal({
+          title: 'Oops...',
+          text: res.data.message,
+          type: 'error'
+        });
+      }
+    );
+  }
+
+  function _register() {
+    if ($scope.regPassword === $scope.regPasswordConfirm) {
+      var data = {
+        email: $scope.regEmail,
+        password: $scope.regPassword,
+        firstName: $scope.regFirstName,
+        lastName: $scope.regLastName
+      };
+      MountainModel.register(data).then(
+        function (res) {
+          swal({
+            title: 'Success!',
+            text: res.data.message,
+            type: 'success'
+          });
+        },
+        function (res) {
+          swal({
+            title: 'Oops...',
+            text: res.data.message,
+            type: 'error'
+          });
+        }
+      );
+    } else {
+      swal(
+        'Oops...',
+        'Passwords does not match',
+        'error'
+      );
+    }
+  }
+});
+angular.module('mountainShop').service('MountainModel', function ($http) {
+  return {
+    login: function (data) {
+      return $http.post('http://localhost:3457/login', data);
+    },
+    register: function (data) {
+      return $http.post('http://localhost:3457/register', data);
+    }
+  }
 });
 /**
  * dirPagination - AngularJS module for paginating (almost) anything.
@@ -675,14 +747,14 @@ angular.module('mountainShop').component('home', {
   templateUrl: 'src/js/components/home/home-view.html',
   controller: 'homeController'
 });
-angular.module('mountainShop').controller('homeController', function ($scope, $state, $http) {
-  
+angular.module('mountainShop').controller('homeController', function ($scope, $state, $stateParams, $http) {
+
 });
 angular.module('mountainShop').component('productDetails', {
   templateUrl: 'src/js/components/product-details/product-details-view.html',
   controller: 'productDetailsController'
 });
-angular.module('mountainShop').controller('productDetailsController', function ($scope, $state, $http) {
+angular.module('mountainShop').controller('productDetailsController', function ($scope, $state, $stateParams, $http) {
   $scope.product = {
     ref: 24653,
     type: 'Jackets-Coats',

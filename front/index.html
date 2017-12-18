@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="src/css/styles.css">
 </head>
 
-<body ng-app="mountainShop">
+<body ng-app="mountainShop" ng-controller="shopController">
     <!--Navbar-->
     <nav class="navbar navbar-expand-lg navbar-dark special-color fixed-top">
         <div class="container">
@@ -114,18 +114,18 @@
                 <div class="modal-body">
                     <div class="md-form form-sm">
                         <i class="fa fa-envelope prefix"></i>
-                        <input type="text" id="form30" class="form-control">
+                        <input type="text" id="form30" ng-model="logEmail" class="form-control">
                         <label for="form30">Your email</label>
                     </div>
 
                     <div class="md-form form-sm">
                         <i class="fa fa-lock prefix"></i>
-                        <input type="password" id="form31" class="form-control">
+                        <input type="password" id="form31" ng-model="logPassword" class="form-control">
                         <label for="form31">Your password</label>
                     </div>
 
                     <div class="text-center mt-2">
-                        <button class="btn btn-info">Log in
+                        <button class="btn btn-info" ng-click="login()">Log in
                             <i class="fa fa-sign-in ml-1"></i>
                         </button>
                     </div>
@@ -151,24 +151,35 @@
                 <div class="modal-body">
                     <div class="md-form form-sm">
                         <i class="fa fa-envelope prefix"></i>
-                        <input type="text" id="form32" class="form-control">
-                        <label for="form32">Your email</label>
+                        <input type="text" id="form32" ng-model="regFirstName" class="form-control">
+                        <label for="form32">First Name</label>
+                    </div>
+                    <div class="md-form form-sm">
+                        <i class="fa fa-envelope prefix"></i>
+                        <input type="text" id="form33" ng-model="regLastName" class="form-control">
+                        <label for="form33">Last Name</label>
+                    </div>
+
+
+                    <div class="md-form form-sm">
+                        <i class="fa fa-envelope prefix"></i>
+                        <input type="text" id="form34" ng-model="regEmail" class="form-control">
+                        <label for="form34">Your email</label>
                     </div>
 
                     <div class="md-form form-sm">
                         <i class="fa fa-lock prefix"></i>
-                        <input type="password" id="form33" class="form-control">
-                        <label for="form33">Your password</label>
+                        <input type="password" id="form35" ng-model="regPassword" class="form-control">
+                        <label for="form35">Your password</label>
                     </div>
-
                     <div class="md-form form-sm">
                         <i class="fa fa-lock prefix"></i>
-                        <input type="password" id="form34" class="form-control">
-                        <label for="form34">Repeat password</label>
+                        <input type="password" id="form36" ng-model="regPasswordConfirm" class="form-control">
+                        <label for="form36">Repeat password</label>
                     </div>
 
                     <div class="text-center mt-2">
-                        <button class="btn btn-info">Sign up
+                        <button class="btn btn-info" ng-click="register()">Sign up
                             <i class="fa fa-sign-in ml-1"></i>
                         </button>
                     </div>
@@ -186,6 +197,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.6/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.16/angular-filter.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.1.0/dist/sweetalert2.all.min.js"></script>
     <!-- Mountain Shop -->
     <script src="dist/js/bundle.js"></script>
 </body>

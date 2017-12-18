@@ -17,7 +17,10 @@ angular.module('mountainShop').config(function ($stateProvider, $urlRouterProvid
   var productDetailsState = {
     name: 'productDetails',
     url: '/product/:productRef',
-    component: 'productDetails'
+    component: 'productDetails',
+    params: {
+      productRef: null
+    }
   };
 
   $stateProvider.state(homeState);

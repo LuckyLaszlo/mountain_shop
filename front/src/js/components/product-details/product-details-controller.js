@@ -1,4 +1,4 @@
-angular.module('mountainShop').controller('productDetailsController', function ($scope, $state, $http) {
+angular.module('mountainShop').controller('productDetailsController', function ($scope, $state, $stateParams, $http) {
   $scope.product = {
     ref: 24653,
     type: 'Jackets-Coats',
