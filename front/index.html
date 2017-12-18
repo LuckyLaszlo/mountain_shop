@@ -43,12 +43,20 @@
                         </div>
                     </li>
                 </ul>
-                <ul class="navbar-nav ml-auto mr-2">
+                <ul ng-if="!logged" class="navbar-nav ml-auto mr-2">
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="modal" data-target="#modalLogin">Login</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="modal" data-target="#modalRegister">Register</a>
+                    </li>
+                </ul>
+                <ul ng-if="logged" class="navbar-nav ml-auto mr-2">
+                    <li class="nav-item">
+                        <a class="nav-link" ui-sref="home">My Account</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" ng-click="logout()">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -117,13 +125,11 @@
                         <input type="text" id="form30" ng-model="logEmail" class="form-control">
                         <label for="form30">Your email</label>
                     </div>
-
                     <div class="md-form form-sm">
                         <i class="fa fa-lock prefix"></i>
                         <input type="password" id="form31" ng-model="logPassword" class="form-control">
                         <label for="form31">Your password</label>
                     </div>
-
                     <div class="text-center mt-2">
                         <button class="btn btn-info" ng-click="login()">Log in
                             <i class="fa fa-sign-in ml-1"></i>
@@ -159,13 +165,11 @@
                         <input type="text" id="form33" ng-model="regLastName" class="form-control">
                         <label for="form33">Last Name</label>
                     </div>
-
                     <div class="md-form form-sm">
                         <i class="fa fa-envelope prefix"></i>
                         <input type="text" id="form34" ng-model="regEmail" class="form-control">
                         <label for="form34">Your email</label>
                     </div>
-
                     <div class="md-form form-sm">
                         <i class="fa fa-lock prefix"></i>
                         <input type="password" id="form35" ng-model="regPassword" class="form-control">
@@ -176,18 +180,15 @@
                         <input type="password" id="form36" ng-model="regPasswordConfirm" class="form-control">
                         <label for="form36">Repeat password</label>
                     </div>
-
                     <div class="text-center mt-2">
                         <button class="btn btn-info" ng-click="register()">Sign up
                             <i class="fa fa-sign-in ml-1"></i>
                         </button>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
-
     <!-- SCRIPTS -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>

@@ -35,6 +35,7 @@ angular.module('mountainShop').config(function (paginationTemplateProvider) {
 angular.module('mountainShop').controller('shopController', function ($scope, $state, $stateParams, $http, $timeout, MountainModel) {
   $scope.login = _login;
   $scope.register = _register;
+  $scope.logout = _logout;
   $scope.auth = '';
   $scope.user_email = '';
   $scope.logged = false;
@@ -50,7 +51,7 @@ angular.module('mountainShop').controller('shopController', function ($scope, $s
     MountainModel.login(data).then(
       function (res) {
         $('#modalLogin').modal('hide');
-        $timeout(swal_success, 1000);
+        $timeout(swal_success, 500);
         function swal_success() {
           swal({
             title: 'Success!',
@@ -79,9 +80,11 @@ angular.module('mountainShop').controller('shopController', function ($scope, $s
     localStorage.setItem('user-email', '');
     $scope.logged = false;
     swal({
-      title: 'Oops...',
-      text: res.data.message,
-      type: 'error'
+      title: 'Logged out',
+      text: 'You are now anonymous',
+      type: 'info',
+      showConfirmButton: false,
+      timer: 2000
     });
   }
 
@@ -131,6 +134,12 @@ angular.module('mountainShop').service('MountainModel', function ($http) {
     },
     register: function (data) {
       return $http.post('http://localhost:3457/register', data);
+    },
+    getProducts: function () {
+      return $http.get('http://localhost:3457/products');
+    },
+    getProductDetails: function (data) {
+      return $http.get('http://localhost:3457/product/' + data);
     }
   }
 });
