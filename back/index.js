@@ -20,9 +20,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-mongoose.connect(url, {
-  useMongoClient: true,
-}, function (err) {
+mongoose.connect(url, { useMongoClient: true, }, function (err) {
   if (err) {
     throw err;
   } else {
