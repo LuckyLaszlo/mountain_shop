@@ -11,34 +11,34 @@
     <hr>
     <div class="row mx-auto">
       <div class="col-12 col-md-4 col-lg-3 jumbotron mt-3 mb-auto">
-          <div class="col-sm-6 col-lg-4 mb-2">
-            <label for="">Category: </label>
-            <select ng-model="search.type">
-              <option value="">All</option>
-              <option value="Jackets-Coats">Jackets and Coats</option>
-              <option value="Hats-Caps">Hats and Caps</option>
-              <option value="Gloves">Gloves</option>
-              <option value="Bags">Bags</option>
-            </select>
-          </div>
-          <div class="col-sm-6 col-lg-4 mb-2">
-            <label for="">Brand: </label>
-            <select ng-model="search.brand" ng-options="product.brand as product.brand group by product.type for product in products | unique:'brand'">
-            </select>
-          </div>
-          <div class="col-sm-6 col-lg-4 mb-2">
-            <label for="">Price: </label>
-            <select ng-model="order">
-              <option value="">Default</option>
-              <option value="-price">Desc</option>
-              <option value="+price">Asc</option>
-            </select>
-          </div>
-          <div class="col-sm-6 col-lg-4 p-2">
-            <button class="btn btn-sm btn-dark" ng-click="resetSearch()">Reset</button>
-          </div>
+        <div class="col-sm-6 col-lg-4 mb-2">
+          <label for="">Category: </label>
+          <select ng-model="search.type">
+            <option value="">All</option>
+            <option value="Jackets-Coats">Jackets and Coats</option>
+            <option value="Hats-Caps">Hats and Caps</option>
+            <option value="Gloves">Gloves</option>
+            <option value="Bags">Bags</option>
+          </select>
         </div>
-  
+        <div class="col-sm-6 col-lg-4 mb-2">
+          <label for="">Brand: </label>
+          <select ng-model="search.brand" ng-options="product.brand as product.brand group by product.type for product in products | unique:'brand'">
+          </select>
+        </div>
+        <div class="col-sm-6 col-lg-4 mb-2">
+          <label for="">Price: </label>
+          <select ng-model="order">
+            <option value="">Default</option>
+            <option value="-price">Desc</option>
+            <option value="+price">Asc</option>
+          </select>
+        </div>
+        <div class="col-sm-6 col-lg-4 p-2">
+          <button class="btn btn-sm btn-dark" ng-click="resetSearch()">Reset</button>
+        </div>
+      </div>
+
       <div class="row col-12 col-md-8 col-lg-9 mt-3 mx-auto">
         <div dir-paginate="product in products | filter:search | orderBy:order | itemsPerPage: pageSize" class="col-sm-6 col-lg-4 animated fadeIn mb-3">
           <a ui-sref="productDetails({productRef: product.ref})">
@@ -67,4 +67,19 @@
     <nav class="row w-100 mt-auto flex-center animated fadeIn">
       <dir-pagination-controls></dir-pagination-controls>
     </nav>
+  </div>
+
+  <!-- Loader -->
+  <div class="loader" ng-if="!isLoaded">
+    <div class="sk-cube-grid">
+      <div class="sk-cube sk-cube1"></div>
+      <div class="sk-cube sk-cube2"></div>
+      <div class="sk-cube sk-cube3"></div>
+      <div class="sk-cube sk-cube4"></div>
+      <div class="sk-cube sk-cube5"></div>
+      <div class="sk-cube sk-cube6"></div>
+      <div class="sk-cube sk-cube7"></div>
+      <div class="sk-cube sk-cube8"></div>
+      <div class="sk-cube sk-cube9"></div>
+    </div>
   </div>

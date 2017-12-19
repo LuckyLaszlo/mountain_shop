@@ -75,7 +75,7 @@ app.get('/cart/:id', function (req, res) {
     if (docs.cart[0]) {
       res.status(200).send(docs.cart);
     } else {
-      res.status(200).send(message: 'Cart empty. Hurry up ! Buy something !');
+      res.status(200).send({message: 'Cart empty. Hurry up ! Buy something !'});
     }
 
   });
@@ -84,14 +84,14 @@ app.get('/cart/:id', function (req, res) {
 app.post('/cartadd', function (req, res) {
   var _id = req.params.id;
   db.collection('carts').find({ email: _id }).toArray(function (err, docs) {
-    if(docs[0])
+    if (docs[0]) {}
   });
 });
 
 app.post('/cartdelete', function (req, res) {
   var _id = req.params.id;
   db.collection('carts').find({ email: _id }).toArray(function (err, docs) {
-    if(docs[0])
+    if (docs[0]) {}
   });
 });
 
@@ -100,8 +100,8 @@ app.post('/cartdelete', function (req, res) {
 
 app.get('/products', function (req, res) {
   db.collection('products').find({}).toArray(function (err, docs) {
-    if(err) {
-      res.status(500).send(message: 'Problem when retrieving product list');
+    if (err) {
+      res.status(500).send({message: 'Problem when retrieving product list'});
     } else {
       res.status(200).send(docs);
     }
@@ -109,12 +109,12 @@ app.get('/products', function (req, res) {
 });
 
 app.get('/product/:ref', function (req, res) {
-  var _ref = req.params.ref;
-  db.collection('products').find({ ref : _ref }).toArray(function (err, docs) {
+  var _ref = Number(req.params.ref);
+  db.collection('products').find({ ref: _ref }).toArray(function (err, docs) {
     if (docs[0]) {
       res.status(200).send(docs[0]);
     } else {
-      res.status(404).send(message: 'The product reference ' + _ref + ' is not associated with any product');
+      res.status(404).send({message: 'The product reference ' + _ref + ' is not associated with any product'});
     }
   });
 });
@@ -125,7 +125,7 @@ app.get('/customer/:id', function (req, res) {
     if (docs[0]) {
       res.status(200).send(docs[0]);
     } else {
-      res.status(404).send(message: 'No user with email ' + _id + ' found');
+      res.status(404).send({message: 'No user with email ' + _id + ' found'});
     }
   });
 });

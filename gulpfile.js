@@ -4,6 +4,8 @@ var rename = require('gulp-rename');
 
 var jsFiles = 'front/src/js/**/*.js';
 var jsDest = 'front/dist/js';
+var cssFiles = 'front/src/css/**/*.css';
+var cssDest = 'front/dist/css';
 
 gulp.task('scripts', function () {
   return gulp.src(jsFiles)
@@ -11,7 +13,14 @@ gulp.task('scripts', function () {
     .pipe(gulp.dest(jsDest));
 });
 
-gulp.task('watch', function () {
-  gulp.watch(jsFiles, ['scripts']);
+gulp.task('styles', function () {
+  return gulp.src(cssFiles)
+    .pipe(concat('bundle.css'))
+    .pipe(gulp.dest(cssDest));
 });
 
+gulp.task('watch', function () {
+  gulp.watch([jsFiles, cssFiles], ['scripts', 'styles']);
+});
+
+gulp.task('default', ['scripts', 'styles']);

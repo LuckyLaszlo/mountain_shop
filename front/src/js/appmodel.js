@@ -9,8 +9,8 @@ angular.module('mountainShop').service('MountainModel', function ($http) {
     getProducts: function () {
       return $http.get('http://localhost:3457/products');
     },
-    getProductDetails: function (data) {
-      return $http.get('http://localhost:3457/product/' + data);
+    getProductDetails: function (ref) {
+      return $http.get('http://localhost:3457/product/' + ref);
     }
   }
 });

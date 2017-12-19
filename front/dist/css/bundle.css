@@ -1,0 +1,220 @@
+/* TEMPLATE STYLES */
+
+html,
+body,
+.full-height {
+  min-height: 100vh;
+}
+
+
+/* Navigation*/
+
+.top-nav-collapse {
+  background-color: #1C2331;
+}
+
+footer.page-footer {
+  background-color: #1C2331;
+  margin-top: -1px;
+}
+
+@media only screen and (max-width: 768px) {
+  .navbar {
+    background-color: #1C2331;
+  }
+  #brandbag {
+    display: none;
+  }
+}
+
+.navbar .btn-group .dropdown-menu a:hover {
+  color: #000 !important;
+}
+
+.navbar .btn-group .dropdown-menu a:active {
+  color: #fff !important;
+}
+
+.view-bg {
+  background: url("../../src/img/landingbackground.jpeg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#logo-brand {
+  height: 40px;
+}
+
+#brandbag {
+  height: 300px;
+}
+
+.card img {
+  height: 300px;
+}
+
+.card-preview img {
+  height: 150px;
+}
+
+.card-preview img:hover {
+  cursor: pointer;
+}
+
+.card-preview {
+  text-align: center;
+}
+
+.red-text-hover {
+  transition: all ease-in-out 0.3s;
+}
+
+.red-text-hover:hover {
+  color: red;
+}
+/* Tooltip */
+
+.tooltip-trigger {
+  position: relative;
+}
+
+.tooltip-trigger::before,
+.tooltip-trigger::after {
+  position: absolute;
+  opacity: 0;
+  transition: all ease-in-out 0.3s;
+  visibility: hidden;
+}
+
+.tooltip-trigger:hover::before,
+.tooltip-trigger:hover::after {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+}
+
+.tooltip-trigger::before {
+  content: 'Add to cart';
+  width: 90px;
+  height: 20px;
+  line-height: 20px;
+  background: #383e47;
+  color: #ccc;
+  border-radius: 3px;
+  bottom: 25px;
+  left: calc(50% - 45px);
+}
+
+.tooltip-trigger::after {
+  content: '';
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+  border-top-color: #383e47;
+  left: calc(60% - 5px);
+  bottom: 15px;
+}
+/* Loader */
+
+.loader {
+  position: absolute;
+  width: 100vw;
+  min-height: 100vh;
+  top: 0;
+  z-index: 999;
+  background: #fff;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sk-cube-grid {
+  width: 40px;
+  height: 40px;
+}
+
+.sk-cube-grid .sk-cube {
+  width: 33%;
+  height: 33%;
+  background-color: #65d3c6;
+  float: left;
+  -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+  animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+}
+
+.sk-cube-grid .sk-cube1 {
+  -webkit-animation-delay: 0.2s;
+  animation-delay: 0.2s;
+}
+
+.sk-cube-grid .sk-cube2 {
+  -webkit-animation-delay: 0.3s;
+  animation-delay: 0.3s;
+}
+
+.sk-cube-grid .sk-cube3 {
+  -webkit-animation-delay: 0.4s;
+  animation-delay: 0.4s;
+}
+
+.sk-cube-grid .sk-cube4 {
+  -webkit-animation-delay: 0.1s;
+  animation-delay: 0.1s;
+}
+
+.sk-cube-grid .sk-cube5 {
+  -webkit-animation-delay: 0.2s;
+  animation-delay: 0.2s;
+}
+
+.sk-cube-grid .sk-cube6 {
+  -webkit-animation-delay: 0.3s;
+  animation-delay: 0.3s;
+}
+
+.sk-cube-grid .sk-cube7 {
+  -webkit-animation-delay: 0s;
+  animation-delay: 0s;
+}
+
+.sk-cube-grid .sk-cube8 {
+  -webkit-animation-delay: 0.1s;
+  animation-delay: 0.1s;
+}
+
+.sk-cube-grid .sk-cube9 {
+  -webkit-animation-delay: 0.2s;
+  animation-delay: 0.2s;
+}
+
+@-webkit-keyframes sk-cubeGridScaleDelay {
+  0%,
+  70%,
+  100% {
+    -webkit-transform: scale3D(1, 1, 1);
+    transform: scale3D(1, 1, 1);
+  }
+  35% {
+    -webkit-transform: scale3D(0, 0, 1);
+    transform: scale3D(0, 0, 1);
+  }
+}
+
+@keyframes sk-cubeGridScaleDelay {
+  0%,
+  70%,
+  100% {
+    -webkit-transform: scale3D(1, 1, 1);
+    transform: scale3D(1, 1, 1);
+  }
+  35% {
+    -webkit-transform: scale3D(0, 0, 1);
+    transform: scale3D(0, 0, 1);
+  }
+}
