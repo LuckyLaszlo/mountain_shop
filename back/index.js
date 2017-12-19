@@ -54,42 +54,47 @@ function tokenCheck(token) {
   return result;
 }
 
-// Probleme Asynchrone
-// function _findUser(x) {
-//  var result = db.collection('customers').find({ email: x}).toArray(function(err, docs){
-//    console.log('docs[0]:', docs[0].email);
-//    return docs[0].email == x;
-//  });
-// return result;
-// };
-
 // "property" en tant que "email" ne fonctionne pas : ReferenceError: email is not defined. POURQUOI ?
 // function _look(collection, property, value) {
 //   return db.collection(collection).find({ property: value })
 // };
 
 // test look email, pas convaincue.
-function _lookEmail(collection, value) {
-  return db.collection(collection).find({ email: value })
+function _lookEmail(value) {
+  return db.collection('customers').find({ email: value })
 };
 
 
 app.get('/products', function (req, res) {
   db.collection('products').find({}).toArray(function (err, docs) {
-    res.status(200).send(docs);
+    if(err) {
+      res.status(500).send(message: 'Problem when retrieving product list');
+    } else {
+      res.status(200).send(docs);
+    }
   });
 });
 
-app.get('/product', function (req, res) {
-  db.collection('products').find({}).toArray(function (err, docs) {
-    res.status(200).send(docs[0]);
+app.get('/product/:ref', function (req, res) {
+  var _ref = req.params.ref;
+  db.collection('products').find({ ref : _ref }).toArray(function (err, docs) {
+    if (docs[0]) {
+      res.status(200).send(docs[0]);
+    } else {
+      res.status(404).send(message: 'No product with ref ' + _ref + ' found');
+    }
   });
 });
 
 app.get('/customer/:id', function (req, res) {
-  var id = req.params.id;
-  _lookEmail('customers', id).toArray(function (err, docs) {
-    res.status(200).send(docs[0]);
+  var _id = req.params.id;
+
+  _lookEmail(_id).toArray(function (err, docs) {
+    if (docs[0]) {
+      res.status(200).send(docs[0]);
+    } else {
+      res.status(404).send(message: 'No user with email ' + _id + ' found');
+    }
   });
 });
 
@@ -103,7 +108,7 @@ app.get('/customer/:id', function (req, res) {
 app.post('/login', function (req, res) {
   var body = req.body;
   if (body.email && body.password) {
-    _lookEmail('customers', body.email).toArray(function (err, docs) {
+    _lookEmail(body.email).toArray(function (err, docs) {
       if (docs[0]) {
         if (docs[0].password == body.password) {
           var newToken = randomToken();
@@ -134,7 +139,7 @@ app.post('/login', function (req, res) {
 app.post('/register', function (req, res) {
   var body = req.body;
   if (body.email && body.password) {
-    _lookEmail('customers', body.email).toArray(function (err, docs) {
+    _lookEmail(body.email).toArray(function (err, docs) {
       if (docs[0]) {
         res.status(409).send({
           message: 'User already exists with email: ' + body.email
