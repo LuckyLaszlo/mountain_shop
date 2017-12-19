@@ -65,6 +65,39 @@ function _lookEmail(value) {
 };
 
 
+// -----------------------------------------------------------------
+// ---------------------------ROUTES--------------------------------
+// -----------------------------------------------------------------
+
+app.get('/cart/:id', function (req, res) {
+  var _id = req.params.id;
+  db.collection('carts').find({ email: _id }).toArray(function (err, docs) {
+    if (docs.cart[0]) {
+      res.status(200).send(docs.cart);
+    } else {
+      res.status(200).send(message: 'Cart empty. Hurry up ! Buy something !');
+    }
+
+  });
+});
+
+app.post('/cartadd', function (req, res) {
+  var _id = req.params.id;
+  db.collection('carts').find({ email: _id }).toArray(function (err, docs) {
+    if(docs[0])
+  });
+});
+
+app.post('/cartdelete', function (req, res) {
+  var _id = req.params.id;
+  db.collection('carts').find({ email: _id }).toArray(function (err, docs) {
+    if(docs[0])
+  });
+});
+
+// Cart WIP
+
+
 app.get('/products', function (req, res) {
   db.collection('products').find({}).toArray(function (err, docs) {
     if(err) {
@@ -81,14 +114,13 @@ app.get('/product/:ref', function (req, res) {
     if (docs[0]) {
       res.status(200).send(docs[0]);
     } else {
-      res.status(404).send(message: 'No product with ref ' + _ref + ' found');
+      res.status(404).send(message: 'The product reference ' + _ref + ' is not associated with any product');
     }
   });
 });
 
 app.get('/customer/:id', function (req, res) {
   var _id = req.params.id;
-
   _lookEmail(_id).toArray(function (err, docs) {
     if (docs[0]) {
       res.status(200).send(docs[0]);
@@ -151,7 +183,13 @@ app.post('/register', function (req, res) {
           firstName: body.firstName,
           lastName: body.lastName
         });
+        var newCart = new Cart({
+          email: body.email,
+          cart: []
+        });
+
         db.collection('customers').save(newProfile);
+        db.collection('carts').save(newCart);
 
         res.status(200).send({
           message: '┏(＾▽＾)┛ User created with success !┗(＾▽＾)┓'

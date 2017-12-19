@@ -11,4 +11,4 @@ var productSchema = new mongoose.Schema({
     imagePath: String
 });
 
-module.exports = mongoose.model('Lenny', productSchema);
+module.exports = mongoose.model('Product', productSchema);
