@@ -52,7 +52,7 @@ var products = [
         name: 'Bobble Flag Beanie',
         brand: 'TOMMY HILFIGER',
         price: 40,
-        image: 'bobble-flag-beanie',
+        image: 'bobble-flag-beanie',// WTF LES AMIS !!! Il manque la propriété "image" lors de l'ajout dans le cart
         color: 'Black',
         size: 'L',
         message: "Mesh beanie. Flag on one side and with a bobble on the top.",
@@ -72,6 +72,7 @@ var products = [
 
 //Method without "done" variable, he execute the console.log 10 time (the lenght of the array). Why ? 
 //And the products are corectly save in MongoDB... weird ! :s  
+// ANAS a éclaircie le truc, c'est asynchrone et c'est compliqué :D 
 
 // for (var i = 0; i < products.length; i++) {
 //     console.log(i, products.length);

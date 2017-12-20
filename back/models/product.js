@@ -11,6 +11,7 @@ var productSchema = new mongoose.Schema({
     color: String,
     size: String,
     message: String,
+    quantity: { type: Number, default: 1 }
 });
 
 module.exports = mongoose.model('Product', productSchema);
