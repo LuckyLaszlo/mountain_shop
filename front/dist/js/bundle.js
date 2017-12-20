@@ -806,15 +806,30 @@ angular.module('mountainShop').component('cart', {
 });
 angular.module('mountainShop').controller('cartController', function ($scope, $state, $stateParams, $http, MountainModel) {
   $scope.isLoaded = false;
+  $scope.goBack = _goBack;
+  $scope.resetCart = _resetCart;
+  
   $scope.token = '';
   $scope.user_email = '';
   $scope.token = localStorage.getItem('auth-token');
   $scope.user_email = localStorage.getItem('user-email');
-  $scope.goBack = _goBack;
-  $scope.resetCart = _resetCart;
-  $scope.initCart = JSON.parse(localStorage.getItem('user_cart'));
-  if ($scope.initCart != null) {
-    $scope.carts = JSON.parse(localStorage.getItem('user_cart'));
+  $scope.initCart = JSON.parse(localStorage.getItem('user-cart'));
+  
+  if ($scope.token != '' && $scope.user_email != '') {
+    MountainModel.getCart($scope.user_email).then(
+      function (res) {
+        $scope.carts = res.data;
+      },
+      function (res) {
+        swal({
+          title: 'Oops...',
+          text: res.data.message,
+          type: 'error'
+        });
+      }
+    );
+  } else if ($scope.initCart != null) {
+    $scope.carts = JSON.parse(localStorage.getItem('user-cart'));
   } else {
     $scope.carts = [];
   }
@@ -825,60 +840,17 @@ angular.module('mountainShop').controller('cartController', function ($scope, $s
   }
 
   function _resetCart() {
-    localStorage.setItem('user_cart', null);
+    localStorage.setItem('user-cart', null);
+    $state.reload();
   }
 
   function _cartTotal(array) {
     var total = 0;
     angular.forEach(array, function (object) {
-      total += (object.price*object.quantity);
+      total += (object.price * object.quantity);
       $scope.cartTotal = '$' + total;
     });
   }
-
-  if ($scope.token != '' && $scope.email != '') {
-    MountainModel.getCart($scope.user_email).then(
-      function(res) {
-        $scope.carts = res.data;
-      },
-      function(res) {
-        swal({
-          title: 'Oops...',
-          text: res.data.message,
-          type: 'error'
-        });
-      }
-    );
-  }
-
-  // useless, à virer après connection à la database
-  // $scope.carts = [{
-  //     ref: 24653,
-  //     type: 'Jackets-Coats',
-  //     name: 'Benton Parka',
-  //     brand: 'TIMBERLAND',
-  //     price: 250,
-  //     image: 'parka-benton',
-  //     color: 'Black',
-  //     size: 'L',
-  //     quantity: 1,
-  //     message: "Short Parka. With it 2 in 1 model, it is very fonctional : both levels can be worn together or separatly, according to outside weather."
-  //   },
-  //   {
-  //     ref: 47905,
-  //     type: 'Jackets-Coats',
-  //     name: 'Long Parka',
-  //     brand: 'CHEVIGNON',
-  //     price: 340,
-  //     image: 'parka',
-  //     color: 'Black',
-  //     size: 'L',
-  //     quantity: 1,
-  //     message: 'This long classic parka is ideal to figth the cold. Combined with a wool pullover, it will bring you the necessary heat through winter.',
-  //   }
-  // ];
-
-  // _cartTotal($scope.carts);
 });
 angular.module('mountainShop').component('home', {
   templateUrl: 'src/js/components/home/home-view.html',
@@ -893,15 +865,16 @@ angular.module('mountainShop').component('productDetails', {
 });
 angular.module('mountainShop').controller('productDetailsController', function ($scope, $state, $stateParams, $http, MountainModel) {
   $scope.isLoaded = false;
+  $scope.goBack = _goBack;
+  $scope.addToCart = _addToCart;
   $scope.token = '';
   $scope.user_email = '';
   $scope.token = localStorage.getItem('auth-token');
   $scope.user_email = localStorage.getItem('user-email');
-  $scope.goBack = _goBack;
-  $scope.addToCart = _addToCart;
-  $scope.initCart = JSON.parse(localStorage.getItem('user_cart'));
+  $scope.initCart = JSON.parse(localStorage.getItem('user-cart'));
+  
   if ($scope.initCart != null) {
-    $scope.carts = JSON.parse(localStorage.getItem('user_cart'));
+    $scope.carts = JSON.parse(localStorage.getItem('user-cart'));
   } else {
     $scope.carts = [];
   }
@@ -926,10 +899,21 @@ angular.module('mountainShop').controller('productDetailsController', function (
 
   function _addToCart(){
     if ($scope.user_email != '' && $scope.token != '') {
-      $state.go('cart', {productRef: $scope.product.ref});
+      MountainModel.cartAdd($scope.user_email, $stateParams.productRef).then(
+        function (res) {
+        $state.go('cart');
+      },
+      function (res) {
+        swal({
+          title: 'Oops...',
+          text: res.data.message,
+          type: 'error'
+        });
+      }
+    );
     } else {
       $scope.carts[$scope.carts.length] = $scope.product;
-      localStorage.setItem('user_cart', JSON.stringify($scope.carts));
+      localStorage.setItem('user-cart', JSON.stringify($scope.carts));
       $state.go('cart');
     }
   }
@@ -948,11 +932,14 @@ angular.module('mountainShop').controller('productsController', function ($scope
     brand: ''
   };
   $scope.search.type = $stateParams.category;
+  $scope.resetSearch = _resetSearch;
+  $scope.addToCart = _addToCart;
 
-  $scope.resetSearch = function () {
-    $scope.search = {};
-    $scope.order = "";
-  };
+  $scope.token = '';
+  $scope.user_email = '';
+  $scope.token = localStorage.getItem('auth-token');
+  $scope.user_email = localStorage.getItem('user-email');
+  $scope.initCart = JSON.parse(localStorage.getItem('user-cart'));
 
   MountainModel.getProducts().then(
     function (res) {
@@ -967,4 +954,61 @@ angular.module('mountainShop').controller('productsController', function ($scope
       });
     }
   );
+
+  function _resetSearch() {
+    $scope.search = {};
+    $scope.order = "";
+  };
+
+  function _addToCart(prod) {
+    if ($scope.user_email != '' && $scope.token != '') {
+      MountainModel.cartAdd($scope.user_email, prod.ref).then(
+        function (res) {
+          swal({
+            position: 'top-right',
+            type: 'success',
+            title: res.data.message,
+            showConfirmButton: false,
+            timer: 1000
+          });
+        },
+        function (res) {
+          swal({
+            title: 'Oops...',
+            text: res.data.message,
+            type: 'error'
+          });
+        }
+      );
+    } else {
+      if ($scope.initCart != null) {
+        $scope.carts = JSON.parse(localStorage.getItem('user-cart'));
+      } else {
+        $scope.carts = [];
+      }
+      var found = false;
+      for (var i = $scope.carts.length -1; i >= 0; i--){
+        if ($scope.carts[i].ref == prod.ref) {
+          found = true;
+        }
+      }
+      if (!found) {
+        $scope.carts[$scope.carts.length] = prod;
+        localStorage.setItem('user-cart', JSON.stringify($scope.carts));
+        swal({
+          position: 'top-right',
+          type: 'success',
+          title: 'Hop hop hop ! In the cart !',
+          showConfirmButton: false,
+          timer: 1000
+        });
+      } else {
+        swal({
+          position: 'top-right',
+          type: 'error',
+          title: 'Already in the cart, Grand fou'
+        });
+      }
+    }
+  }
 });
