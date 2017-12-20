@@ -111,7 +111,10 @@ app.post('/cart-purge/:id', function (req, res) {
       res.status(200).send(message: "Are you sure you want to delete all your selection ?");
     } else {
       // un truc ou ça redirige vers l\'accueil du site ? a voir comment faire
-      res.status(404).send();
+      // response.redirect("/");
+      // return response.redirect("/");
+      res.redirect("/").status(404).send(message : "Return to home.");
+      // res.status(404).send();
     }
   });
 });
