@@ -13,6 +13,7 @@ angular.module('mountainShop').controller('cartController', function ($scope, $s
     MountainModel.getCart($scope.user_email).then(
       function (res) {
         $scope.carts = res.data;
+        _cartTotal($scope.carts);
       },
       function (res) {
         swal({
@@ -24,10 +25,11 @@ angular.module('mountainShop').controller('cartController', function ($scope, $s
     );
   } else if ($scope.initCart != null) {
     $scope.carts = JSON.parse(localStorage.getItem('user-cart'));
+    _cartTotal($scope.carts);
   } else {
     $scope.carts = [];
+    _cartTotal($scope.carts);
   }
-  _cartTotal($scope.carts);
 
   function _goBack() {
     $state.go('products');
@@ -42,6 +44,7 @@ angular.module('mountainShop').controller('cartController', function ($scope, $s
     var total = 0;
     angular.forEach(array, function (object) {
       total += (object.price * object.quantity);
+      
     });
     $scope.cartTotal = '$' + total;
   }

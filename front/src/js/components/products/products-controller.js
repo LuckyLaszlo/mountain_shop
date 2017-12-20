@@ -40,7 +40,6 @@ angular.module('mountainShop').controller('productsController', function ($scope
       MountainModel.cartAdd($scope.user_email, prod.ref).then(
         function (res) {
           swal({
-            position: 'top-right',
             type: 'success',
             title: res.data.message,
             showConfirmButton: false,
@@ -72,7 +71,6 @@ angular.module('mountainShop').controller('productsController', function ($scope
         $scope.carts[$scope.carts.length] = prod;
         localStorage.setItem('user-cart', JSON.stringify($scope.carts));
         swal({
-          position: 'top-right',
           type: 'success',
           title: 'Hop hop hop ! In the cart !',
           showConfirmButton: false,
@@ -80,7 +78,6 @@ angular.module('mountainShop').controller('productsController', function ($scope
         });
       } else {
         swal({
-          position: 'top-right',
           type: 'error',
           title: 'Already in the cart, Grand fou'
         });

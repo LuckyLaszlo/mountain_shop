@@ -32,6 +32,7 @@ angular.module('mountainShop').controller('shopController', function ($scope, $s
         localStorage.setItem('auth-token', res.data.token);
         localStorage.setItem('user-email', res.data.email);
         $scope.logged = true;
+        $state.reload();
       },
       function (res) {
         swal({
@@ -54,6 +55,7 @@ angular.module('mountainShop').controller('shopController', function ($scope, $s
       showConfirmButton: false,
       timer: 2000
     });
+    $state.reload();
   }
 
   function _register() {
@@ -76,6 +78,7 @@ angular.module('mountainShop').controller('shopController', function ($scope, $s
               showConfirmButton: false,
               timer: 2000
             });
+            $state.reload();
           }
         },
         function (res) {

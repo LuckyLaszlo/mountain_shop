@@ -72,6 +72,7 @@ angular.module('mountainShop').controller('shopController', function ($scope, $s
         localStorage.setItem('auth-token', res.data.token);
         localStorage.setItem('user-email', res.data.email);
         $scope.logged = true;
+        $state.reload();
       },
       function (res) {
         swal({
@@ -94,6 +95,7 @@ angular.module('mountainShop').controller('shopController', function ($scope, $s
       showConfirmButton: false,
       timer: 2000
     });
+    $state.reload();
   }
 
   function _register() {
@@ -116,6 +118,7 @@ angular.module('mountainShop').controller('shopController', function ($scope, $s
               showConfirmButton: false,
               timer: 2000
             });
+            $state.reload();
           }
         },
         function (res) {
@@ -819,6 +822,7 @@ angular.module('mountainShop').controller('cartController', function ($scope, $s
     MountainModel.getCart($scope.user_email).then(
       function (res) {
         $scope.carts = res.data;
+        _cartTotal($scope.carts);
       },
       function (res) {
         swal({
@@ -830,10 +834,11 @@ angular.module('mountainShop').controller('cartController', function ($scope, $s
     );
   } else if ($scope.initCart != null) {
     $scope.carts = JSON.parse(localStorage.getItem('user-cart'));
+    _cartTotal($scope.carts);
   } else {
     $scope.carts = [];
+    _cartTotal($scope.carts);
   }
-  _cartTotal($scope.carts);
 
   function _goBack() {
     $state.go('products');
@@ -848,6 +853,7 @@ angular.module('mountainShop').controller('cartController', function ($scope, $s
     var total = 0;
     angular.forEach(array, function (object) {
       total += (object.price * object.quantity);
+      
     });
     $scope.cartTotal = '$' + total;
   }
@@ -872,7 +878,7 @@ angular.module('mountainShop').controller('productDetailsController', function (
   $scope.token = localStorage.getItem('auth-token');
   $scope.user_email = localStorage.getItem('user-email');
   $scope.initCart = JSON.parse(localStorage.getItem('user-cart'));
-  
+
   if ($scope.initCart != null) {
     $scope.carts = JSON.parse(localStorage.getItem('user-cart'));
   } else {
@@ -885,36 +891,74 @@ angular.module('mountainShop').controller('productDetailsController', function (
       $scope.isLoaded = true;
     },
     function (res) {
+      $scope.isLoaded = true;
       swal({
         title: 'Oops...',
         text: res.data.message,
         type: 'error'
       });
+      $state.go('products');
     }
   );
 
-  function _goBack(){
+  function _goBack() {
     $state.go('products');
   }
 
-  function _addToCart(){
+  function _addToCart() {
     if ($scope.user_email != '' && $scope.token != '') {
       MountainModel.cartAdd($scope.user_email, $stateParams.productRef).then(
         function (res) {
-        $state.go('cart');
-      },
-      function (res) {
-        swal({
-          title: 'Oops...',
-          text: res.data.message,
-          type: 'error'
-        });
-      }
-    );
+          swal({
+            type: 'success',
+            title: res.data.message,
+            showConfirmButton: false,
+            timer: 1000
+          });
+          $state.go('cart');
+        },
+        function (res) {
+          swal({
+            title: 'Oops...',
+            text: res.data.message,
+            type: 'error'
+          });
+          $state.go('products');
+        }
+      );
     } else {
-      $scope.carts[$scope.carts.length] = $scope.product;
-      localStorage.setItem('user-cart', JSON.stringify($scope.carts));
-      $state.go('cart');
+      $scope.initCart = JSON.parse(localStorage.getItem('user-cart'));
+      if ($scope.initCart != null) {
+        $scope.carts = JSON.parse(localStorage.getItem('user-cart'));
+      } else {
+        $scope.carts = [];
+      }
+      var found = false;
+      for (var i = $scope.carts.length - 1; i >= 0; i--) {
+        if ($scope.carts[i].ref == $scope.product.ref) {
+          found = true;
+        }
+      }
+      if (!found) {
+        $scope.carts[$scope.carts.length] = $scope.product;
+        localStorage.setItem('user-cart', JSON.stringify($scope.carts));
+        swal({
+          type: 'success',
+          title: 'Hop hop hop ! In the cart !',
+          showConfirmButton: false,
+          timer: 1000
+        });
+        $state.go('cart');
+      } else {
+        swal({
+          type: 'error',
+          title: 'Already in the cart, Grand fou'
+        });
+        $state.go('products');
+      }
+      // $scope.carts[$scope.carts.length] = $scope.product;
+      // localStorage.setItem('user-cart', JSON.stringify($scope.carts));
+      // $state.go('cart');
     }
   }
 
@@ -965,7 +1009,6 @@ angular.module('mountainShop').controller('productsController', function ($scope
       MountainModel.cartAdd($scope.user_email, prod.ref).then(
         function (res) {
           swal({
-            position: 'top-right',
             type: 'success',
             title: res.data.message,
             showConfirmButton: false,
@@ -997,7 +1040,6 @@ angular.module('mountainShop').controller('productsController', function ($scope
         $scope.carts[$scope.carts.length] = prod;
         localStorage.setItem('user-cart', JSON.stringify($scope.carts));
         swal({
-          position: 'top-right',
           type: 'success',
           title: 'Hop hop hop ! In the cart !',
           showConfirmButton: false,
@@ -1005,7 +1047,6 @@ angular.module('mountainShop').controller('productsController', function ($scope
         });
       } else {
         swal({
-          position: 'top-right',
           type: 'error',
           title: 'Already in the cart, Grand fou'
         });
