@@ -808,7 +808,7 @@ angular.module('mountainShop').controller('cartController', function ($scope, $s
   $scope.isLoaded = false;
   $scope.goBack = _goBack;
   $scope.resetCart = _resetCart;
-  
+
   $scope.token = '';
   $scope.user_email = '';
   $scope.token = localStorage.getItem('auth-token');
@@ -848,8 +848,8 @@ angular.module('mountainShop').controller('cartController', function ($scope, $s
     var total = 0;
     angular.forEach(array, function (object) {
       total += (object.price * object.quantity);
-      $scope.cartTotal = '$' + total;
     });
+    $scope.cartTotal = '$' + total;
   }
 });
 angular.module('mountainShop').component('home', {
@@ -981,6 +981,7 @@ angular.module('mountainShop').controller('productsController', function ($scope
         }
       );
     } else {
+      $scope.initCart = JSON.parse(localStorage.getItem('user-cart'));
       if ($scope.initCart != null) {
         $scope.carts = JSON.parse(localStorage.getItem('user-cart'));
       } else {

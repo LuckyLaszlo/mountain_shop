@@ -56,6 +56,7 @@ angular.module('mountainShop').controller('productsController', function ($scope
         }
       );
     } else {
+      $scope.initCart = JSON.parse(localStorage.getItem('user-cart'));
       if ($scope.initCart != null) {
         $scope.carts = JSON.parse(localStorage.getItem('user-cart'));
       } else {
