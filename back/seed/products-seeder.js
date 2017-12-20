@@ -22,6 +22,7 @@ var products = [
         image: 'parka-benton',
         color: 'Black',
         size: 'L',
+        quantity: 1,
         message: "Short Parka. With it 2 in 1 model, it is very fonctional : both levels can be worn together or separatly, according to outside weather.",
     }),
     new Product({
@@ -33,6 +34,7 @@ var products = [
         image: 'parka',
         color: 'Black',
         size: 'L',
+        quantity: 1,
         message: 'This long classic parka is ideal to figth the cold. Combined with a wool pullover, it will bring you the necessary heat through winter.',
     }),
     new Product({
@@ -44,6 +46,7 @@ var products = [
         image: 'doudoune-legere',
         color: 'Black',
         size: 'L',
+        quantity: 1,
         message: "Ajusted Padded-Jacket. Packed with a collar and long sleeves with 4 flap pockets.",
     }),
     new Product({
@@ -55,6 +58,7 @@ var products = [
         image: 'bobble-flag-beanie',// WTF LES AMIS !!! Il manque la propriété "image" lors de l'ajout dans le cart
         color: 'Black',
         size: 'L',
+        quantity: 1,
         message: "Mesh beanie. Flag on one side and with a bobble on the top.",
     }),
     new Product({
@@ -66,6 +70,7 @@ var products = [
         image: 'beanie-wool-crocodile',
         color: 'Black',
         size: 'L',
+        quantity: 1,
         message: "Wool beanie with the iconic crocodile in front. Corded finishes",
     })
 ];

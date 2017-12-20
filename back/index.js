@@ -71,8 +71,8 @@ function _lookEmail(value) {
 app.get('/cart/:id', function (req, res) {
   var _id = req.params.id;
   db.collection('carts').find({ email: _id }).toArray(function (err, docs) {
-    if (docs.cart[0]) {
-      res.status(200).send(docs.cart);
+    if (docs[0].cart[0]) {
+      res.status(200).send(docs[0].cart);
     } else {
       res.status(200).send({message: 'Cart empty. Hurry up ! Buy something !'});
     }
@@ -110,7 +110,9 @@ app.post('/cart-add', function (req, res) {
   });
 });
 
-// WARNING : "pull" delete all object with the same ref x : if we have a product ref a with size 1 and a product ref a with size 2 => pull delete a size 1 and 2 ! Send size and color in the body for verification .
+// WARNING : "pull" delete all object with the same ref x
+// if we have a product ref a with size 1 and a product ref a with size 2 => pull delete a size 1 and 2 !
+// Send size and color in the body for verification .
 app.post('/cart-delete', function (req, res) {
   var body = req.body;
   db.collection('carts').find({ email: body.email }).toArray(function (err, docs) {
