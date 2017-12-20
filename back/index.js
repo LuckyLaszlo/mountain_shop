@@ -85,7 +85,7 @@ app.post('/cart-add/:id', function (req, res) {
   var _id = req.params.id;
   db.collection('carts').find({ email: _id }).toArray(function (err, docs) {
     if(docs[0]) {
-      
+      // Reprendre exemple sur le register pour save la cart ?
     }
   });
 });
@@ -111,6 +111,7 @@ app.post('/cart-purge/:id', function (req, res) {
   var body = req.body;
   db.collection('carts').find({ email: _id }).toArray(function (err, docs) {
     if(docs[0]) {
+      // Afficher une alert avec confirmation ?
       res.status(200).send(message: "Are you sure you want to delete all your selection ?");
     } else {
       // un truc ou ça redirige vers l\'accueil du site ? a voir comment faire
