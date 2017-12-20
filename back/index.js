@@ -98,7 +98,10 @@ app.post('/cart-delete/:id', function (req, res) {
       
     } else {
       // un truc ou ça redirige vers l\'accueil du site ? a voir comment faire
-      res.status(404).send();
+      // response.redirect("/");
+      // return response.redirect("/");
+      res.redirect("/").status(404).send(message : "Return to home.");
+      // res.status(404).send();
     }
   });
 });
