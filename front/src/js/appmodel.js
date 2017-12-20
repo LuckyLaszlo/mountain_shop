@@ -21,6 +21,13 @@ angular.module('mountainShop').service('MountainModel', function ($http) {
         ref: ref
       };
       return $http.post('http://localhost:3457/cart-add', data);
+    },
+    cartDelete: function(user_id, ref) {
+      var data = {
+        email: user_id,
+        ref: ref
+      };
+      return $http.post('http://localhost:3457/cart-delete', data);
     }
   }
 });

@@ -85,9 +85,6 @@ angular.module('mountainShop').controller('productDetailsController', function (
         });
         $state.go('products');
       }
-      // $scope.carts[$scope.carts.length] = $scope.product;
-      // localStorage.setItem('user-cart', JSON.stringify($scope.carts));
-      // $state.go('cart');
     }
   }
 

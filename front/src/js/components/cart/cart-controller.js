@@ -2,6 +2,7 @@ angular.module('mountainShop').controller('cartController', function ($scope, $s
   $scope.isLoaded = false;
   $scope.goBack = _goBack;
   $scope.resetCart = _resetCart;
+  $scope.delFromCart = _delFromCart;
 
   $scope.token = '';
   $scope.user_email = '';
@@ -47,5 +48,57 @@ angular.module('mountainShop').controller('cartController', function ($scope, $s
       
     });
     $scope.cartTotal = '$' + total;
+  }
+
+  function _delFromCart(prod) {
+    if ($scope.user_email != '' && $scope.token != '') {
+      MountainModel.cartDelete($scope.user_email, prod.ref).then(
+        function (res) {
+          swal({
+            type: 'success',
+            title: res.data.message,
+            showConfirmButton: false,
+            timer: 1000
+          });
+        },
+        function (res) {
+          swal({
+            title: 'Oops...',
+            text: res.data.message,
+            type: 'error'
+          });
+        }
+      );
+    } else {
+      $scope.initCart = JSON.parse(localStorage.getItem('user-cart'));
+      if ($scope.initCart != null) {
+        $scope.carts = JSON.parse(localStorage.getItem('user-cart'));
+      } else {
+        $scope.carts = [];
+      }
+      var found = false;
+      var numb = -1;
+      for (var i = $scope.carts.length - 1; i >= 0; i--) {
+        if ($scope.carts[i].ref == prod.ref) {
+          found = true;
+          numb = i;
+        }
+      }
+      if (!found) {
+        $scope.carts.splice(numb, 1);
+        localStorage.setItem('user-cart', JSON.stringify($scope.carts));
+        swal({
+          type: 'success',
+          title: 'Hop hop hop ! Out of the cart !',
+          showConfirmButton: false,
+          timer: 1000
+        });
+      } else {
+        swal({
+          type: 'error',
+          title: 'No product found with the ref ' + prod.ref + ' in the cart'
+        });
+      }
+    }
   }
 });
