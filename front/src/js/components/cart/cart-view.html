@@ -1,0 +1,36 @@
+<div class="full-height">
+  <div class="container-fluid animated fadeIn pt-5">
+    <div class="row pt-5 white-text stylish-color">
+      <div class="container">
+        <div class="d-flex justify-content-start align-items-center pb-4">
+          <i class="fa fa-2x fa-shopping-cart mr-3" aria-hidden="true"></i>
+          <h2 class="h2-responsive"> Shopping Cart</h2>
+        </div>
+      </div>
+    </div>
+    <div class="container pt-3 pb-3">
+      <div class="row">
+        <div class="col-md-8">
+          <ul class="list-group">
+            <li ng-repeat="cart in carts" class="list-group-item row d-flex justify-content-start p-1">
+              <div class="col-5 col-sm-3 cart-display">
+                <img class="img-fluid" ng-src="src/img/products/{{cart.type}}/{{cart.image}}.jpg" alt="product image">
+              </div>
+              <div class="col-7 col-sm-5">
+                <p>{{cart.brand}}<br>{{cart.name}}</p>
+              </div>
+              <div class="col-sm-4">
+                <p>{{'$' + cart.price}}</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h4 class="h4-responsive">Total:</h4>
+          <h2 class="h2-responsive">$50</h2>
+          <button class="btn btn-danger">Checkout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

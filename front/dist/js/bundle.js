@@ -23,10 +23,16 @@ angular.module('mountainShop').config(function ($stateProvider, $urlRouterProvid
       productRef: null
     }
   };
+  var cartState = {
+    name: 'cart',
+    url: '/cart',
+    component: 'cart'
+  }
 
   $stateProvider.state(homeState);
   $stateProvider.state(productsState);
   $stateProvider.state(productDetailsState);
+  $stateProvider.state(cartState);
 });
 
 angular.module('mountainShop').config(function (paginationTemplateProvider) {
@@ -784,6 +790,38 @@ angular.module('mountainShop').service('MountainModel', function ($http) {
         };
     }
 })();
+angular.module('mountainShop').component('cart', {
+  templateUrl: 'src/js/components/cart/cart-view.html',
+  controller: 'cartController'
+});
+angular.module('mountainShop').controller('cartController', function ($scope, $state, $stateParams, $http) {
+  $scope.carts = [{
+      ref: 24653,
+      type: 'Jackets-Coats',
+      name: 'Benton Parka',
+      brand: 'TIMBERLAND',
+      price: 250,
+      image: 'parka-benton',
+      message: "Short Parka. With it 2 in 1 model, it is very fonctional : both levels can be worn together or separatly, according to outside weather."
+    },
+    {
+      ref: 47905,
+      type: 'Jackets-Coats',
+      name: 'Long Parka',
+      brand: 'CHEVIGNON',
+      price: 340,
+      image: 'parka',
+      message: 'This long classic parka is ideal to figth the cold. Combined with a wool pullover, it will bring you the necessary heat through winter.',
+    }
+  ];
+});
+angular.module('mountainShop').component('home', {
+  templateUrl: 'src/js/components/home/home-view.html',
+  controller: 'homeController'
+});
+angular.module('mountainShop').controller('homeController', function ($scope, $state, $stateParams, $http) {
+
+});
 angular.module('mountainShop').component('productDetails', {
   templateUrl: 'src/js/components/product-details/product-details-view.html',
   controller: 'productDetailsController'
@@ -801,21 +839,21 @@ angular.module('mountainShop').controller('productDetailsController', function (
       console.log(res.data);
       $scope.product = res.data;
       $scope.isLoaded = true;
+    },
+    function (res) {
+      swal({
+        title: 'Oops...',
+        text: res.data.message,
+        type: 'error'
+      });
     }
   );
-});
-angular.module('mountainShop').component('home', {
-  templateUrl: 'src/js/components/home/home-view.html',
-  controller: 'homeController'
-});
-angular.module('mountainShop').controller('homeController', function ($scope, $state, $stateParams, $http) {
-
 });
 angular.module('mountainShop').component('products', {
   templateUrl: 'src/js/components/products/products-view.html',
   controller: 'productsController'
 });
-angular.module('mountainShop').controller('productsController', function ($scope, $state, $stateParams, $http, $filter, $timeout, MountainModel) {
+angular.module('mountainShop').controller('productsController', function ($scope, $state, $stateParams, $http, $filter, MountainModel) {
   $scope.isLoaded = false;
   $scope.currentPage = 1;
   $scope.pageSize = 6;
@@ -834,6 +872,13 @@ angular.module('mountainShop').controller('productsController', function ($scope
     function (res) {
       $scope.products = res.data;
       $scope.isLoaded = true;
+    },
+    function (res) {
+      swal({
+        title: 'Oops...',
+        text: res.data.message,
+        type: 'error'
+      });
     }
   );
 });

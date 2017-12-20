@@ -74,6 +74,10 @@ footer.page-footer {
 .red-text-hover:hover {
   color: red;
 }
+
+.cart-display img {
+ height: 70px;
+}
 /* Tooltip */
 
 .tooltip-trigger {

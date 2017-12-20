@@ -11,6 +11,13 @@ angular.module('mountainShop').controller('productDetailsController', function (
       console.log(res.data);
       $scope.product = res.data;
       $scope.isLoaded = true;
+    },
+    function (res) {
+      swal({
+        title: 'Oops...',
+        text: res.data.message,
+        type: 'error'
+      });
     }
   );
 });

@@ -1,4 +1,4 @@
-angular.module('mountainShop').controller('productsController', function ($scope, $state, $stateParams, $http, $filter, $timeout, MountainModel) {
+angular.module('mountainShop').controller('productsController', function ($scope, $state, $stateParams, $http, $filter, MountainModel) {
   $scope.isLoaded = false;
   $scope.currentPage = 1;
   $scope.pageSize = 6;
@@ -17,6 +17,13 @@ angular.module('mountainShop').controller('productsController', function ($scope
     function (res) {
       $scope.products = res.data;
       $scope.isLoaded = true;
+    },
+    function (res) {
+      swal({
+        title: 'Oops...',
+        text: res.data.message,
+        type: 'error'
+      });
     }
   );
 });

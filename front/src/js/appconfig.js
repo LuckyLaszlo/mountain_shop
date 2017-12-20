@@ -22,10 +22,16 @@ angular.module('mountainShop').config(function ($stateProvider, $urlRouterProvid
       productRef: null
     }
   };
+  var cartState = {
+    name: 'cart',
+    url: '/cart',
+    component: 'cart'
+  }
 
   $stateProvider.state(homeState);
   $stateProvider.state(productsState);
   $stateProvider.state(productDetailsState);
+  $stateProvider.state(cartState);
 });
 
 angular.module('mountainShop').config(function (paginationTemplateProvider) {
