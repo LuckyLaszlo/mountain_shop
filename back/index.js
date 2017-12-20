@@ -95,6 +95,7 @@ app.post('/cart-delete/:id', function (req, res) {
   var body = req.body;
   db.collection('carts').find({ email: _id }).toArray(function (err, docs) {
     if(docs[0]) {
+      
     } else {
       // un truc ou ça redirige vers l\'accueil du site ? a voir comment faire
       res.status(404).send();
