@@ -78,3 +78,8 @@ footer.page-footer {
 .cart-display img {
  height: 70px;
 }
+
+.active-menu {
+  background-color: rgba(0, 0, 0, 0.2);
+  color: #2BBBAD !important;
+}

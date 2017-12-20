@@ -1,14 +1,18 @@
 angular.module('mountainShop').controller('productDetailsController', function ($scope, $state, $stateParams, $http, MountainModel) {
   $scope.isLoaded = false;
-  $scope.goBack = goBack;
+  $scope.goBack = _goBack;
+  $scope.addToCart = _addToCart;
 
-  function goBack(){
+  function _goBack(){
     $state.go('products');
+  }
+
+  function _addToCart(ref){
+    $state.go('cart', {productRef: ref});
   }
 
   MountainModel.getProductDetails($stateParams.productRef).then(
     function (res) {
-      console.log(res.data);
       $scope.product = res.data;
       $scope.isLoaded = true;
     },

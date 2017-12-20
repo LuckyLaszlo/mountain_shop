@@ -1,5 +1,13 @@
 <div class="full-height">
-  <div class="container pt-5">
+  <div class="container-fluid pt-5">
+    <div class="row pt-5 white-text stylish-color">
+      <div class="container">
+        <div class="d-flex justify-content-start align-items-center pb-4">
+          <h4 class="h4-responsive mr-2">{{product.type}} -</h4>
+          <h4 class="h4-responsive">Product ref: {{product.ref}}</h4>
+        </div>
+      </div>
+    </div>
     <div class="row animated fadeIn pt-5">
       <div class="col-md-6 pt-5">
         <div class="view waves-effect waves-light hm-zoom flex-center">
@@ -7,13 +15,16 @@
         </div>
       </div>
       <div class="col-md-6 pt-5">
-        <h2>{{product.brand}}</h2>
-        <h4>{{product.name}}</h4>
-        <h3>{{product.price + ' $'}}</h3>
+        <h2 class="h2-responsive">{{product.brand}}</h2>
+        <h3 class="h3-responsive">{{product.name}}</h3>
+        <br>
+        <h4 class="h4-responsive">Color: {{product.color}}</h4>
+        <h4 class="h4-responsive">Size: {{product.size}}</h4>
+        <h3 class="h3-responsive">{{'$' + product.price}}</h3>
         <p class="pt-5">{{product.message}}</p>
         <hr>
-        <button class="btn btn-success">Add to cart</button>
-        <button class="btn btn-primary" ng-click="goBack()">Go back Shopping</button>
+        <button class="btn btn-success" ng-click="addToCart(product.ref)">Add to cart</button>
+        <button class="btn btn-default" ng-click="goBack()">Go Back Shopping</button>
       </div>
     </div>
   </div>

@@ -26,7 +26,10 @@ angular.module('mountainShop').config(function ($stateProvider, $urlRouterProvid
   var cartState = {
     name: 'cart',
     url: '/cart',
-    component: 'cart'
+    component: 'cart',
+    params: {
+      productRef: null
+    }
   }
 
   $stateProvider.state(homeState);
@@ -795,6 +798,15 @@ angular.module('mountainShop').component('cart', {
   controller: 'cartController'
 });
 angular.module('mountainShop').controller('cartController', function ($scope, $state, $stateParams, $http) {
+  $scope.isLoaded = false;
+  $scope.token = localStorage.getItem('auth-token');
+  $scope.user_email = localStorage.getItem('user-email');
+  $scope.goBack = _goBack;
+
+  function _goBack() {
+    $state.go('products');
+  }
+
   $scope.carts = [{
       ref: 24653,
       type: 'Jackets-Coats',
@@ -802,6 +814,8 @@ angular.module('mountainShop').controller('cartController', function ($scope, $s
       brand: 'TIMBERLAND',
       price: 250,
       image: 'parka-benton',
+      color: 'Black',
+      size: 'L',
       message: "Short Parka. With it 2 in 1 model, it is very fonctional : both levels can be worn together or separatly, according to outside weather."
     },
     {
@@ -811,6 +825,8 @@ angular.module('mountainShop').controller('cartController', function ($scope, $s
       brand: 'CHEVIGNON',
       price: 340,
       image: 'parka',
+      color: 'Black',
+      size: 'L',
       message: 'This long classic parka is ideal to figth the cold. Combined with a wool pullover, it will bring you the necessary heat through winter.',
     }
   ];
@@ -828,15 +844,19 @@ angular.module('mountainShop').component('productDetails', {
 });
 angular.module('mountainShop').controller('productDetailsController', function ($scope, $state, $stateParams, $http, MountainModel) {
   $scope.isLoaded = false;
-  $scope.goBack = goBack;
+  $scope.goBack = _goBack;
+  $scope.addToCart = _addToCart;
 
-  function goBack(){
+  function _goBack(){
     $state.go('products');
+  }
+
+  function _addToCart(ref){
+    $state.go('cart', {productRef: ref});
   }
 
   MountainModel.getProductDetails($stateParams.productRef).then(
     function (res) {
-      console.log(res.data);
       $scope.product = res.data;
       $scope.isLoaded = true;
     },
