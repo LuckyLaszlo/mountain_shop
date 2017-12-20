@@ -1,0 +1,42 @@
+/* Tooltip */
+
+.tooltip-trigger {
+  position: relative;
+}
+
+.tooltip-trigger::before,
+.tooltip-trigger::after {
+  position: absolute;
+  opacity: 0;
+  transition: all ease-in-out 0.3s;
+  visibility: hidden;
+}
+
+.tooltip-trigger:hover::before,
+.tooltip-trigger:hover::after {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+}
+
+.tooltip-trigger::before {
+  content: 'Add to cart';
+  width: 90px;
+  height: 20px;
+  line-height: 20px;
+  background: #383e47;
+  color: #ccc;
+  border-radius: 3px;
+  bottom: 25px;
+  left: calc(50% - 45px);
+}
+
+.tooltip-trigger::after {
+  content: '';
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+  border-top-color: #383e47;
+  left: calc(60% - 5px);
+  bottom: 15px;
+}

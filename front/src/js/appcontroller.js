@@ -1,4 +1,5 @@
 angular.module('mountainShop').controller('shopController', function ($scope, $state, $stateParams, $http, $timeout, MountainModel) {
+  $scope.isLoaded = false;
   $scope.login = _login;
   $scope.register = _register;
   $scope.logout = _logout;
@@ -7,6 +8,7 @@ angular.module('mountainShop').controller('shopController', function ($scope, $s
   $scope.logged = false;
   $scope.auth = localStorage.getItem('auth-token');
   $scope.user_email = localStorage.getItem('user-email');
+  $scope.isLoaded = true;
   if ($scope.auth !== '' && $scope.user_email !== '') $scope.logged = true;
 
   function _login() {
