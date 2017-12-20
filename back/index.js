@@ -29,6 +29,9 @@ mongoose.connect(url, { useMongoClient: true, }, function (err) {
   }
 });
 
+var db = mongoose.connection;
+var carts = db.collection('carts');
+
 // Deprecated method
 /* mongoose.connect(url, function(err) {
    if (err) { throw err; } else {
@@ -36,7 +39,6 @@ mongoose.connect(url, { useMongoClient: true, }, function (err) {
  } 
  }); */
 
-var db = mongoose.connection;
 
 function randomToken() {
   var string = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -119,6 +121,7 @@ app.post('/cart-delete', function (req, res) {
     if (docs[0]) {
       // Verification, if the product is present in the cart
       var found = false;
+      // rajoutter une conditiron 'found = false'
       for (var i = docs[0].cart.length - 1; i >= 0; i--) {
         if (docs[0].cart[i].ref == Number(body.ref)) {
           found = true;
@@ -128,7 +131,7 @@ app.post('/cart-delete', function (req, res) {
         // db.collection('carts').update({ email: body.email }, { $pull: { "cart.ref": Number(body.ref) } });
         res.status(200).send({ message: "Hop hop hop ! Out of the cart !" });
       } else {
-        res.status(404).send({ message: 'No product found with the ref ' + body.ref + 'in the cart' });
+        res.status(404).send({ message: 'No product found with the ref ' + body.ref + ' in the cart' });
       }
     } else {
       res.status(404).send({ message: 'No cart found for user ' + body.id });
@@ -136,6 +139,7 @@ app.post('/cart-delete', function (req, res) {
   });
 });
 
+// MUST ADD CONDITION FOR NOT REDUCE THE QUANTITY BELOW 1
 app.post('/modify-quantity', function (req, res) {
   var body = req.body;
   var _ref = Number(body.ref);
@@ -146,13 +150,21 @@ app.post('/modify-quantity', function (req, res) {
       for (var i = docs[0].cart.length - 1; i >= 0; i--) {
         if (docs[0].cart[i].ref == Number(body.ref)) {
           found = true;
+          cartProdNumber = i;
+          console.log("cartProdNumber = ", cartProdNumber);
         }
       } if (found) {
         if (body.modify == "+") {
-          db.collection('carts').update({ email: body.email }, { $inc: { cart: { quantity: +1 } } });
+          // db.collection('carts').update( { email: body.email }, { $inc: { quantity: +1 } });
+          // db.collection('carts').update( { cart: { $eq: Number(body.ref) } }, { $inc: { quantity: +1 } } );
+          // db.collection('carts').update({ email: body.email }, { $inc: { "cart[cartProdNumber].quantity": +1 } });
+          db.collection('carts').update({ email: body.email }, { $inc: { ['cart.' + cartProdNumber + '.quantity']: +1 }});
           res.status(200).send({ message: "+1 to item quantity" });
         } else if (body.modify == "-") {
-          db.collection('carts').update({ email: body.email }, { $inc: { cart: { quantity: -1 } } });
+          // db.collection('carts').update( { email: body.email }, { $inc: { quantity: -1 } });
+          // db.collection('carts').update( { cart: { $eq: Number(body.ref) } }, { $inc: { quantity: -1 } } );
+          // db.collection('carts').update({ email: body.email }, { $inc: { "cart.[cartProdNumber].quantity": -1 } });
+          db.collection('carts').update({ email: body.email }, { $inc: { ['cart.' + cartProdNumber + '.quantity']: -1 } });
           res.status(200).send({ message: "-1 to item quantity" });
         } else {
           res.status(400).send({ message: 'Request UNACCEPTABLE' });
@@ -180,7 +192,7 @@ app.post('/modify-quantity', function (req, res) {
 //     if(docs[0]) {
 //       // Afficher une alert avec confirmation ?
 //       res.status(200).send({message: "Are you sure you want to delete all your selection ?"});
-//       //comment fare une pause ? Ce que je fais a t'il le moindre putain de sens ?
+//       // Comment fare une pause ? Ce que je fais a t'il le moindre putain de sens ? J'en doute :D .
 //       if(body.confirm) {
 
 //       }
