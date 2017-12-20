@@ -84,9 +84,8 @@ app.get('/cart/:id', function (req, res) {
 app.post('/cart-add/:id', function (req, res) {
   var _id = req.params.id;
   db.collection('carts').find({ email: _id }).toArray(function (err, docs) {
-    if(docs[0]) {
+    if(!)
       // Reprendre exemple sur le register pour save la cart ?
-    }
   });
 });
 //----------------------------------------
@@ -96,13 +95,13 @@ app.post('/cart-delete/:id', function (req, res) {
   db.collection('carts').find({ email: _id }).toArray(function (err, docs) {
     if(docs[0]) {
       
-    } else {
-      // un truc ou ça redirige vers l\'accueil du site ? a voir comment faire
-      // response.redirect("/");
-      // return response.redirect("/");
-      res.redirect("/").status(404).send(message : "Return to home.");
-      // res.status(404).send();
     }
+    //  else {
+    //   // un truc ou ça redirige vers l\'accueil du site ? a voir comment faire
+    //   // response.redirect("/");
+    //   // return response.redirect("/");
+    //   res.redirect("/").status(404).send(message : "Return to home.");
+    // }
   });
 });
 //----------------------------------------
@@ -113,12 +112,15 @@ app.post('/cart-purge/:id', function (req, res) {
     if(docs[0]) {
       // Afficher une alert avec confirmation ?
       res.status(200).send(message: "Are you sure you want to delete all your selection ?");
+      //comment fare une pause ? Ce que je fais a t'il le moindre putain de sens ?
+      if(body.confirm) {
+
+      }
     } else {
       // un truc ou ça redirige vers l\'accueil du site ? a voir comment faire
       // response.redirect("/");
       // return response.redirect("/");
       res.redirect("/").status(404).send(message : "Return to home.");
-      // res.status(404).send();
     }
   });
 });
