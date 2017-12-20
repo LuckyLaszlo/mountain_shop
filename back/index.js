@@ -80,18 +80,38 @@ app.get('/cart/:id', function (req, res) {
 
   });
 });
-
-app.post('/cartadd', function (req, res) {
+//----------------------------------------
+app.post('/cart-add/:id', function (req, res) {
   var _id = req.params.id;
   db.collection('carts').find({ email: _id }).toArray(function (err, docs) {
-    if(docs[0])
+    if(docs[0]) {
+      
+    }
   });
 });
-
-app.post('/cartdelete', function (req, res) {
+//----------------------------------------
+app.post('/cart-delete/:id', function (req, res) {
   var _id = req.params.id;
+  var body = req.body;
   db.collection('carts').find({ email: _id }).toArray(function (err, docs) {
-    if(docs[0])
+    if(docs[0]) {
+    } else {
+      // un truc ou ça redirige vers l\'accueil du site ? a voir comment faire
+      res.status(404).send();
+    }
+  });
+});
+//----------------------------------------
+app.post('/cart-purge/:id', function (req, res) {
+  var _id = req.params.id;
+  var body = req.body;
+  db.collection('carts').find({ email: _id }).toArray(function (err, docs) {
+    if(docs[0]) {
+      res.status(200).send(message: "Are you sure you want to delete all your selection ?");
+    } else {
+      // un truc ou ça redirige vers l\'accueil du site ? a voir comment faire
+      res.status(404).send();
+    }
   });
 });
 
@@ -192,7 +212,7 @@ app.post('/register', function (req, res) {
         db.collection('carts').save(newCart);
 
         res.status(200).send({
-          message: '┏(＾▽＾)┛ User created with success !┗(＾▽＾)┓'
+          message: '┏(＾▽＾)┛ Registration complete. Welcome !┗(＾▽＾)┓'
         });
       }
     });
