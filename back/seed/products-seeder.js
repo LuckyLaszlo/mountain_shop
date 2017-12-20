@@ -20,6 +20,8 @@ var products = [
         brand: 'TIMBERLAND',
         price: 250,
         image: 'parka-benton',
+        color: 'Black',
+        size: 'L',
         message: "Short Parka. With it 2 in 1 model, it is very fonctional : both levels can be worn together or separatly, according to outside weather.",
     }),
     new Product({
@@ -29,6 +31,8 @@ var products = [
         brand: 'CHEVIGNON',
         price: 340,
         image: 'parka',
+        color: 'Black',
+        size: 'L',
         message: 'This long classic parka is ideal to figth the cold. Combined with a wool pullover, it will bring you the necessary heat through winter.',
     }),
     new Product({
@@ -38,6 +42,8 @@ var products = [
         brand: 'SCHOTT',
         price: 180,
         image: 'doudoune-legere',
+        color: 'Black',
+        size: 'L',
         message: "Ajusted Padded-Jacket. Packed with a collar and long sleeves with 4 flap pockets.",
     }),
     new Product({
@@ -47,6 +53,8 @@ var products = [
         brand: 'TOMMY HILFIGER',
         price: 40,
         image: 'bobble-flag-beanie',
+        color: 'Black',
+        size: 'L',
         message: "Mesh beanie. Flag on one side and with a bobble on the top.",
     }),
     new Product({
@@ -56,6 +64,8 @@ var products = [
         brand: 'LACOSTE SPORT',
         price: 30,
         image: 'beanie-wool-crocodile',
+        color: 'Black',
+        size: 'L',
         message: "Wool beanie with the iconic crocodile in front. Corded finishes",
     })
 ];

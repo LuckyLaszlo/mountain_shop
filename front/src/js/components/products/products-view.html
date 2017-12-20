@@ -1,11 +1,13 @@
 <div class="full-height">
   <div class="container-fluid pt-5">
     <!--Page heading-->
-    <div class="row mt-5">
-      <div class="col-md-12">
-        <h1 class="h1-responsive">Products
-          <small class="text-muted"> all you need</small>
-        </h1>
+    <div class="row pt-5 white-text stylish-color">
+      <div class="container">
+        <div class="d-flex justify-content-start align-items-center pb-4">
+          <h2 class="h2-responsive"><i class="fa fa-cubes" aria-hidden="true"></i> Products
+            <small class="text-muted"> all you need</small>
+          </h2>
+        </div>
       </div>
     </div>
     <hr>
@@ -35,7 +37,7 @@
           </select>
         </div>
         <div class="col-sm-6 col-lg-4 p-2">
-          <button class="btn btn-sm btn-dark" ng-click="resetSearch()">Reset</button>
+          <button class="btn btn-sm btn-default" ng-click="resetSearch()">Reset</button>
         </div>
       </div>
 
@@ -52,7 +54,7 @@
               </div>
           </a>
           <div class="card-footer">
-            {{product.price + '$'}}
+            {{'$' + product.price}}
             <a class="tooltip-trigger">
               <i class="fa fa-lg red-text-hover fa-shopping-cart"></i>
             </a>
