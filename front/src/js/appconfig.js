@@ -26,9 +26,6 @@ angular.module('mountainShop').config(function ($stateProvider, $urlRouterProvid
     name: 'cart',
     url: '/cart',
     component: 'cart',
-    params: {
-      productRef: null
-    }
   }
 
   $stateProvider.state(homeState);

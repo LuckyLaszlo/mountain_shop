@@ -27,9 +27,6 @@ angular.module('mountainShop').config(function ($stateProvider, $urlRouterProvid
     name: 'cart',
     url: '/cart',
     component: 'cart',
-    params: {
-      productRef: null
-    }
   }
 
   $stateProvider.state(homeState);
@@ -151,6 +148,16 @@ angular.module('mountainShop').service('MountainModel', function ($http) {
     },
     getProductDetails: function (ref) {
       return $http.get('http://localhost:3457/product/' + ref);
+    },
+    getCart: function (user_id) {
+      return $http.get('http://localhost:3457/cart/' + user_id);
+    },
+    cartAdd: function(user_id, ref) {
+      var data = {
+        email: user_id,
+        ref: ref
+      };
+      return $http.post('http://localhost:3457/cart-add', data);
     }
   }
 });
@@ -797,39 +804,81 @@ angular.module('mountainShop').component('cart', {
   templateUrl: 'src/js/components/cart/cart-view.html',
   controller: 'cartController'
 });
-angular.module('mountainShop').controller('cartController', function ($scope, $state, $stateParams, $http) {
+angular.module('mountainShop').controller('cartController', function ($scope, $state, $stateParams, $http, MountainModel) {
   $scope.isLoaded = false;
+  $scope.token = '';
+  $scope.user_email = '';
   $scope.token = localStorage.getItem('auth-token');
   $scope.user_email = localStorage.getItem('user-email');
   $scope.goBack = _goBack;
+  $scope.resetCart = _resetCart;
+  $scope.initCart = JSON.parse(localStorage.getItem('user_cart'));
+  if ($scope.initCart != null) {
+    $scope.carts = JSON.parse(localStorage.getItem('user_cart'));
+  } else {
+    $scope.carts = [];
+  }
+  _cartTotal($scope.carts);
 
   function _goBack() {
     $state.go('products');
   }
 
-  $scope.carts = [{
-      ref: 24653,
-      type: 'Jackets-Coats',
-      name: 'Benton Parka',
-      brand: 'TIMBERLAND',
-      price: 250,
-      image: 'parka-benton',
-      color: 'Black',
-      size: 'L',
-      message: "Short Parka. With it 2 in 1 model, it is very fonctional : both levels can be worn together or separatly, according to outside weather."
-    },
-    {
-      ref: 47905,
-      type: 'Jackets-Coats',
-      name: 'Long Parka',
-      brand: 'CHEVIGNON',
-      price: 340,
-      image: 'parka',
-      color: 'Black',
-      size: 'L',
-      message: 'This long classic parka is ideal to figth the cold. Combined with a wool pullover, it will bring you the necessary heat through winter.',
-    }
-  ];
+  function _resetCart() {
+    localStorage.setItem('user_cart', null);
+  }
+
+  function _cartTotal(array) {
+    var total = 0;
+    angular.forEach(array, function (object) {
+      total += (object.price*object.quantity);
+      $scope.cartTotal = '$' + total;
+    });
+  }
+
+  if ($scope.token != '' && $scope.email != '') {
+    MountainModel.getCart($scope.user_email).then(
+      function(res) {
+        $scope.carts = res.data;
+      },
+      function(res) {
+        swal({
+          title: 'Oops...',
+          text: res.data.message,
+          type: 'error'
+        });
+      }
+    );
+  }
+
+  // useless, à virer après connection à la database
+  // $scope.carts = [{
+  //     ref: 24653,
+  //     type: 'Jackets-Coats',
+  //     name: 'Benton Parka',
+  //     brand: 'TIMBERLAND',
+  //     price: 250,
+  //     image: 'parka-benton',
+  //     color: 'Black',
+  //     size: 'L',
+  //     quantity: 1,
+  //     message: "Short Parka. With it 2 in 1 model, it is very fonctional : both levels can be worn together or separatly, according to outside weather."
+  //   },
+  //   {
+  //     ref: 47905,
+  //     type: 'Jackets-Coats',
+  //     name: 'Long Parka',
+  //     brand: 'CHEVIGNON',
+  //     price: 340,
+  //     image: 'parka',
+  //     color: 'Black',
+  //     size: 'L',
+  //     quantity: 1,
+  //     message: 'This long classic parka is ideal to figth the cold. Combined with a wool pullover, it will bring you the necessary heat through winter.',
+  //   }
+  // ];
+
+  // _cartTotal($scope.carts);
 });
 angular.module('mountainShop').component('home', {
   templateUrl: 'src/js/components/home/home-view.html',
@@ -844,15 +893,17 @@ angular.module('mountainShop').component('productDetails', {
 });
 angular.module('mountainShop').controller('productDetailsController', function ($scope, $state, $stateParams, $http, MountainModel) {
   $scope.isLoaded = false;
+  $scope.token = '';
+  $scope.user_email = '';
+  $scope.token = localStorage.getItem('auth-token');
+  $scope.user_email = localStorage.getItem('user-email');
   $scope.goBack = _goBack;
   $scope.addToCart = _addToCart;
-
-  function _goBack(){
-    $state.go('products');
-  }
-
-  function _addToCart(ref){
-    $state.go('cart', {productRef: ref});
+  $scope.initCart = JSON.parse(localStorage.getItem('user_cart'));
+  if ($scope.initCart != null) {
+    $scope.carts = JSON.parse(localStorage.getItem('user_cart'));
+  } else {
+    $scope.carts = [];
   }
 
   MountainModel.getProductDetails($stateParams.productRef).then(
@@ -868,6 +919,21 @@ angular.module('mountainShop').controller('productDetailsController', function (
       });
     }
   );
+
+  function _goBack(){
+    $state.go('products');
+  }
+
+  function _addToCart(){
+    if ($scope.user_email != '' && $scope.token != '') {
+      $state.go('cart', {productRef: $scope.product.ref});
+    } else {
+      $scope.carts[$scope.carts.length] = $scope.product;
+      localStorage.setItem('user_cart', JSON.stringify($scope.carts));
+      $state.go('cart');
+    }
+  }
+
 });
 angular.module('mountainShop').component('products', {
   templateUrl: 'src/js/components/products/products-view.html',
