@@ -59,7 +59,6 @@ function tokenCheck(token) {
 //   return db.collection(collection).find({ property: value })
 // };
 
-// test look email, pas convaincue.
 function _lookEmail(value) {
   return db.collection('customers').find({ email: value })
 };
@@ -95,13 +94,9 @@ app.post('/cart-delete/:id', function (req, res) {
   db.collection('carts').find({ email: _id }).toArray(function (err, docs) {
     if(docs[0]) {
       
+    } else {
+      // res.status(404).send();
     }
-    //  else {
-    //   // un truc ou ça redirige vers l\'accueil du site ? a voir comment faire
-    //   // response.redirect("/");
-    //   // return response.redirect("/");
-    //   res.redirect("/").status(404).send(message : "Return to home.");
-    // }
   });
 });
 //----------------------------------------
@@ -114,13 +109,10 @@ app.post('/cart-purge/:id', function (req, res) {
       res.status(200).send(message: "Are you sure you want to delete all your selection ?");
       //comment fare une pause ? Ce que je fais a t'il le moindre putain de sens ?
       if(body.confirm) {
-
+        
       }
     } else {
-      // un truc ou ça redirige vers l\'accueil du site ? a voir comment faire
-      // response.redirect("/");
-      // return response.redirect("/");
-      res.redirect("/").status(404).send(message : "Return to home.");
+      // res.status(404).send();
     }
   });
 });
