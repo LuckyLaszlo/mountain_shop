@@ -71,10 +71,10 @@ function _lookEmail(value) {
 app.get('/cart/:id', function (req, res) {
   var _id = req.params.id;
   db.collection('carts').find({ email: _id }).toArray(function (err, docs) {
-    if (docs.cart[0]) {
-      res.status(200).send(docs.cart);
+    if (docs[0].cart[0]) {
+      res.status(200).send(docs[0].cart);
     } else {
-      res.status(200).send({message: 'Cart empty. Hurry up ! Buy something !'});
+      res.status(204).send({message: 'Cart empty. Hurry up ! Buy something !'});
     }
 
   });
@@ -92,7 +92,7 @@ app.post('/cart-add', function (req, res) {
           found = true;
         }
       }
-      if (!found) {
+      if (found == false) {
         db.collection('products').find({ ref: Number(body.ref) }).toArray(function (err, docs) {
           if (docs[0]) {
             db.collection('carts').update({ email: body.email }, { $addToSet: { cart: docs[0] } });
@@ -101,8 +101,8 @@ app.post('/cart-add', function (req, res) {
             res.status(404).send({ message: 'No product found with the ref ' + body.ref });
           }
         });
-      } else {
-        res.status(404).send({ message: 'Already in the cart, Grand fou' })
+      } else { // Pas de message, pourqoui ?
+        res.status(400).send({ message: 'Already in the cart, Grand fou ( ͡° ͜ʖ ͡° )' })
       }
     } else {
       res.status(404).send({ message: 'No cart found for user ' + body.id });
@@ -114,18 +114,56 @@ app.post('/cart-add', function (req, res) {
 app.post('/cart-delete', function (req, res) {
   var body = req.body;
   db.collection('carts').find({ email: body.email }).toArray(function (err, docs) {
-    if(docs[0]) {
+    if (docs[0]) {
       // Verification, if the product is present in the cart
       var found = false;
       for (var i = docs[0].cart.length - 1; i >= 0; i--) {
         if (docs[0].cart[i].ref == Number(body.ref)) {
           found = true;
         }
-      } if(found) {
-        db.collection('carts').update({ email: body.email }, { $pull: { cart: { ref: Number(body.ref) } } });
+      } if (found) {
+        db.collection('carts').update({ email: body.email }, { $pull: { cart: { ref : Number(body.ref) } } });
+        // db.collection('carts').update({ email: body.email }, { $pull: { "cart.ref": Number(body.ref) } });
         res.status(200).send({ message: "Hop hop hop ! Out of the cart !" });
       } else {
         res.status(404).send({ message: 'No product found with the ref ' + body.ref + 'in the cart' });
+      }
+    } else {
+      res.status(404).send({ message: 'No cart found for user ' + body.id });
+    }
+  });
+});
+
+app.post('/modify-quantity', function (req, res) {
+  var body = req.body;
+  var _ref = Number(body.ref);
+  db.collection('carts').find({ email: body.email }).toArray(function (err, docs) {
+    if (docs[0]) {
+      // Verification, if the product is present in the cart
+      var found = false;
+      for (var i = docs[0].cart.length - 1; i >= 0; i--) {
+        if (docs[0].cart[i].ref == Number(body.ref)) {
+          found = true;
+        }
+      } if (found) {
+        if (body.modify == "+") {
+          db.collection('carts').update({ email: body.email }, { $inc: { cart: { quantity: +1 } } });
+          res.status(200).send({ message: "+1 to item quantity" });
+        } else if (body.modify == "-") {
+          db.collection('carts').update({ email: body.email }, { $inc: { cart: { quantity: -1 } } });
+          res.status(200).send({ message: "-1 to item quantity" });
+        } else {
+          res.status(400).send({ message: 'Request UNACCEPTABLE' });
+        }
+      } else {
+        db.collection('products').find({ ref: Number(body.ref) }).toArray(function (err, docs) {
+          if (docs[0]) {
+            db.collection('carts').update({ email: body.email }, { $addToSet: { cart: docs[0] } });
+            res.status(200).send({ message: "Hop hop hop ! In the cart !" });
+          } else {
+            res.status(404).send({ message: 'No product found with the ref ' + body.ref });
+          }
+        });
       }
     } else {
       res.status(404).send({ message: 'No cart found for user ' + body.id });
@@ -237,9 +275,7 @@ app.post('/register', function (req, res) {
         db.collection('customers').save(newProfile);
         db.collection('carts').save(newCart);
 
-        res.status(200).send({
-          message: '┏(＾▽＾)┛ Registration complete. Welcome !┗(＾▽＾)┓'
-        });
+        res.status(200).send({ message: '┏(＾▽＾)┛ Welcome !┗(＾▽＾)┓' });
       }
     });
   } else {
