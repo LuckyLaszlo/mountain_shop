@@ -21,9 +21,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 mongoose.connect(url, { useMongoClient: true, }, function (err) {
-  if (err) {
-    throw err;
-  } else {
+  if (err) { throw err; } else {
     console.log("Connected successfully to server with Mongoose");
     console.log("----------------");
   }
@@ -31,6 +29,8 @@ mongoose.connect(url, { useMongoClient: true, }, function (err) {
 
 var db = mongoose.connection;
 var carts = db.collection('carts');
+var products = db.collection('products');
+var customers = db.collection('customers');
 
 // Deprecated method
 /* mongoose.connect(url, function(err) {
@@ -56,23 +56,13 @@ function tokenCheck(token) {
   return result;
 }
 
-// "property" en tant que "email" ne fonctionne pas : ReferenceError: email is not defined. POURQUOI ?
-// function _look(collection, property, value) {
-//   return db.collection(collection).find({ property: value })
-// };
-
-function _lookEmail(value) {
-  return db.collection('customers').find({ email: value })
-};
-
-
 // -----------------------------------------------------------------
 // ---------------------------ROUTES--------------------------------
 // -----------------------------------------------------------------
 
 app.get('/cart/:id', function (req, res) {
   var _id = req.params.id;
-  db.collection('carts').find({ email: _id }).toArray(function (err, docs) {
+  carts.find({ email: _id }).toArray(function (err, docs) {
     if (docs[0].cart[0]) {
       res.status(200).send(docs[0].cart);
     } else {
@@ -85,7 +75,7 @@ app.get('/cart/:id', function (req, res) {
 
 app.post('/cart-add', function (req, res) {
   var body = req.body;
-  db.collection('carts').find({ email: body.email }).toArray(function (err, docs) {
+  carts.find({ email: body.email }).toArray(function (err, docs) {
     if (docs[0]) {
       // Verification, if the product is already present in the cart
       var found = false;
@@ -95,9 +85,9 @@ app.post('/cart-add', function (req, res) {
         }
       }
       if (found == false) {
-        db.collection('products').find({ ref: Number(body.ref) }).toArray(function (err, docs) {
+        products.find({ ref: Number(body.ref) }).toArray(function (err, docs) {
           if (docs[0]) {
-            db.collection('carts').update({ email: body.email }, { $addToSet: { cart: docs[0] } });
+            carts.update({ email: body.email }, { $addToSet: { cart: docs[0] } });
             res.status(200).send({ message: "Hop hop hop ! In the cart !" });
           } else {
             res.status(404).send({ message: 'No product found with the ref ' + body.ref });
@@ -117,7 +107,7 @@ app.post('/cart-add', function (req, res) {
 // Send size and color in the body for verification .
 app.post('/cart-delete', function (req, res) {
   var body = req.body;
-  db.collection('carts').find({ email: body.email }).toArray(function (err, docs) {
+  carts.find({ email: body.email }).toArray(function (err, docs) {
     if (docs[0]) {
       // Verification, if the product is present in the cart
       var found = false;
@@ -127,8 +117,8 @@ app.post('/cart-delete', function (req, res) {
           found = true;
         }
       } if (found) {
-        db.collection('carts').update({ email: body.email }, { $pull: { cart: { ref : Number(body.ref) } } });
-        // db.collection('carts').update({ email: body.email }, { $pull: { "cart.ref": Number(body.ref) } });
+        carts.update({ email: body.email }, { $pull: { cart: { ref : Number(body.ref) } } });
+        // carts.update({ email: body.email }, { $pull: { "cart.ref": Number(body.ref) } });
         res.status(200).send({ message: "Hop hop hop ! Out of the cart !" });
       } else {
         res.status(404).send({ message: 'No product found with the ref ' + body.ref + ' in the cart' });
@@ -141,10 +131,14 @@ app.post('/cart-delete', function (req, res) {
 
 app.post('/cart-purge', function (req, res) {
   var body = req.body;
-  db.collection('carts').find({ email: body.email }).toArray(function (err, docs) {
+  carts.find({ email: body.email }).toArray(function (err, docs) {
     if (docs[0]) {
-        db.collection('carts').update({ email: body.email }, { "$set": { "cart": [] } });
+      if (docs[0].cart[0]) {
+        carts.update({ email: body.email }, { "$set": { "cart": [] } });
         res.status(200).send({ message: "Hop hop hop ! Empty cart !" });
+      } else {
+        res.status(404).send({ message: 'Cart already empty, you ding-dong ( ͡° ͜ʖ ͡° )' });
+      }
     } else {
       res.status(404).send({ message: 'No cart found for user ' + body.id });
     }
@@ -155,7 +149,7 @@ app.post('/cart-purge', function (req, res) {
 app.post('/modify-quantity', function (req, res) {
   var body = req.body;
   var _ref = Number(body.ref);
-  db.collection('carts').find({ email: body.email }).toArray(function (err, docs) {
+  carts.find({ email: body.email }).toArray(function (err, docs) {
     if (docs[0]) {
       // Verification, if the product is present in the cart
       var found = false;
@@ -167,24 +161,18 @@ app.post('/modify-quantity', function (req, res) {
         }
       } if (found) {
         if (body.modify == "+") {
-          // db.collection('carts').update( { email: body.email }, { $inc: { quantity: +1 } });
-          // db.collection('carts').update( { cart: { $eq: Number(body.ref) } }, { $inc: { quantity: +1 } } );
-          // db.collection('carts').update({ email: body.email }, { $inc: { "cart[cartProdNumber].quantity": +1 } });
-          db.collection('carts').update({ email: body.email }, { $inc: { ['cart.' + cartProdNumber + '.quantity']: +1 }});
+          carts.update({ email: body.email }, { $inc: { ['cart.' + cartProdNumber + '.quantity']: +1 }});
           res.status(200).send({ message: "+1 to item quantity" });
         } else if (body.modify == "-") {
-          // db.collection('carts').update( { email: body.email }, { $inc: { quantity: -1 } });
-          // db.collection('carts').update( { cart: { $eq: Number(body.ref) } }, { $inc: { quantity: -1 } } );
-          // db.collection('carts').update({ email: body.email }, { $inc: { "cart.[cartProdNumber].quantity": -1 } });
-          db.collection('carts').update({ email: body.email }, { $inc: { ['cart.' + cartProdNumber + '.quantity']: -1 } });
+          carts.update({ email: body.email }, { $inc: { ['cart.' + cartProdNumber + '.quantity']: -1 } });
           res.status(200).send({ message: "-1 to item quantity" });
         } else {
-          res.status(400).send({ message: 'Request UNACCEPTABLE' });
+          res.status(400).send({ message: 'Request UNACCEPTABLE !' });
         }
       } else {
-        db.collection('products').find({ ref: Number(body.ref) }).toArray(function (err, docs) {
+        products.find({ ref: Number(body.ref) }).toArray(function (err, docs) {
           if (docs[0]) {
-            db.collection('carts').update({ email: body.email }, { $addToSet: { cart: docs[0] } });
+            carts.update({ email: body.email }, { $addToSet: { cart: docs[0] } });
             res.status(200).send({ message: "Hop hop hop ! In the cart !" });
           } else {
             res.status(404).send({ message: 'No product found with the ref ' + body.ref });
@@ -197,25 +185,8 @@ app.post('/modify-quantity', function (req, res) {
   });
 });
 
-// app.post('/cart-purge/:id', function (req, res) {
-//   var _id = req.params.id;
-//   var body = req.body;
-//   db.collection('carts').find({ email: _id }).toArray(function (err, docs) {
-//     if(docs[0]) {
-//       // Afficher une alert avec confirmation ?
-//       res.status(200).send({message: "Are you sure you want to delete all your selection ?"});
-//       // Comment fare une pause ? Ce que je fais a t'il le moindre putain de sens ? J'en doute :D .
-//       if(body.confirm) {
-
-//       }
-//     } else {
-//       // res.status(404).send();
-//     }
-//   })
-// // });
-
 app.get('/products', function (req, res) {
-  db.collection('products').find({}).toArray(function (err, docs) {
+  products.find({}).toArray(function (err, docs) {
     if (err) {
       res.status(500).send({message: 'Problem when retrieving product list'});
     } else {
@@ -226,7 +197,7 @@ app.get('/products', function (req, res) {
 
 app.get('/product/:ref', function (req, res) {
   var _ref = Number(req.params.ref);
-  db.collection('products').find({ ref: _ref }).toArray(function (err, docs) {
+  products.find({ ref: _ref }).toArray(function (err, docs) {
     if (docs[0]) {
       res.status(200).send(docs[0]);
     } else {
@@ -237,7 +208,7 @@ app.get('/product/:ref', function (req, res) {
 
 app.get('/customer/:id', function (req, res) {
   var _id = req.params.id;
-  _lookEmail(_id).toArray(function (err, docs) {
+  customers.find({ email: _id }).toArray(function (err, docs) {
     if (docs[0]) {
       res.status(200).send(docs[0]);
     } else {
@@ -250,7 +221,7 @@ app.get('/customer/:id', function (req, res) {
 app.post('/login', function (req, res) {
   var body = req.body;
   if (body.email && body.password) {
-    _lookEmail(body.email).toArray(function (err, docs) {
+    customers.find({ email: body.email }).toArray(function (err, docs) {
       if (docs[0]) {
         if (docs[0].password == body.password) {
           var newToken = randomToken();
@@ -281,7 +252,7 @@ app.post('/login', function (req, res) {
 app.post('/register', function (req, res) {
   var body = req.body;
   if (body.email && body.password) {
-    _lookEmail(body.email).toArray(function (err, docs) {
+    customers.find({ email: body.email }).toArray(function (err, docs) {
       if (docs[0]) {
         res.status(409).send({
           message: 'User already exists with email: ' + body.email
@@ -298,8 +269,8 @@ app.post('/register', function (req, res) {
           cart: []
         });
 
-        db.collection('customers').save(newProfile);
-        db.collection('carts').save(newCart);
+        customers.save(newProfile);
+        carts.save(newCart);
 
         res.status(200).send({ message: '┏(＾▽＾)┛ Welcome !┗(＾▽＾)┓' });
       }
