@@ -139,6 +139,39 @@ app.post('/cart-delete', function (req, res) {
   });
 });
 
+app.post('/cart-purge', function (req, res) {
+  var body = req.body;
+  db.collection('carts').find({ email: body.email }).toArray(function (err, docs) {
+    if (docs[0]) {
+      // Verification, if the product is present in the cart
+      // var found = false;
+      // rajoutter une conditiron 'found = false'
+      // for (var i = docs[0].cart.length - 1; i >= 0; i--) {
+      //   if (docs[0].cart[i].ref == Number(body.ref)) {
+      //     found = true;
+      //   }
+      // } if (found) {
+      //   db.collection('carts').update({ email: body.email }, { $pullAll: { cart: new Product } });
+      //   // db.collection('carts').update({ email: body.email }, { $pull: { "cart.ref": Number(body.ref) } });
+      //   res.status(200).send({ message: "Hop hop hop ! Empty cart !" });
+      // } else {
+      //   res.status(404).send({ message: 'No product found in the cart' });
+      // }
+        // db.collection('carts').update({ email: body.email }, { $pullAll: { "cart.new Product": [ new Product ] } });
+        // db.collection('carts').update({ email: body.email }, { $pullAll: { cart: {products} } });
+        // { $pullAll: { <field1>: [ <value1>, <value2> ... ], ... } }
+        // db.survey.update( { _id: 1 }, { $pullAll: { scores: [ 0, 5 ] } }
+        db.collection('carts').update({ email: body.email }, { $pullAll: { cart: { products: [new Product] } } });
+        res.status(200).send({ message: "Hop hop hop ! Empty cart !" });
+      // } else {
+      //   res.status(404).send({ message: 'No product found in the cart' });
+      // }
+    } else {
+      res.status(404).send({ message: 'No cart found for user ' + body.id });
+    }
+  });
+});
+
 // MUST ADD CONDITION FOR NOT REDUCE THE QUANTITY BELOW 1
 app.post('/modify-quantity', function (req, res) {
   var body = req.body;
