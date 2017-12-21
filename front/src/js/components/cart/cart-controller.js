@@ -1,4 +1,4 @@
-angular.module('mountainShop').controller('cartController', function ($scope, $state, $stateParams, $http, MountainModel) {
+angular.module('mountainShop').controller('cartController', function ($scope, $state, $stateParams, $timeout, $http, MountainModel) {
   $scope.isLoaded = false;
   $scope.goBack = _goBack;
   $scope.resetCart = _resetCart;
@@ -60,6 +60,19 @@ angular.module('mountainShop').controller('cartController', function ($scope, $s
             showConfirmButton: false,
             timer: 1000
           });
+          MountainModel.getCart($scope.user_email).then(
+            function (res) {
+              $scope.carts = res.data;
+              _cartTotal($scope.carts);
+            },
+            function (res) {
+              swal({
+                title: 'Oops...',
+                text: res.data.message,
+                type: 'error'
+              });
+            }
+          );
         },
         function (res) {
           swal({
