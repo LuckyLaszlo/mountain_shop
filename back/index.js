@@ -139,6 +139,18 @@ app.post('/cart-delete', function (req, res) {
   });
 });
 
+app.post('/cart-purge', function (req, res) {
+  var body = req.body;
+  db.collection('carts').find({ email: body.email }).toArray(function (err, docs) {
+    if (docs[0]) {
+        db.collection('carts').update({ email: body.email }, { "$set": { "cart": [] } });
+        res.status(200).send({ message: "Hop hop hop ! Empty cart !" });
+    } else {
+      res.status(404).send({ message: 'No cart found for user ' + body.id });
+    }
+  });
+});
+
 // MUST ADD CONDITION FOR NOT REDUCE THE QUANTITY BELOW 1
 app.post('/modify-quantity', function (req, res) {
   var body = req.body;
