@@ -43,17 +43,34 @@
                 </div>
               </div>
             </li>
-            <li ng-if="cartEmpty" class="list-group-item flex-center"><p>Cart is Empty !</p></li>
+            <li ng-if="cartEmpty" class="list-group-item flex-center">
+              <p>Cart is Empty !</p>
+            </li>
           </ul>
         </div>
         <div class="col-md-4 mt-2">
           <h4 class="h4-responsive">Total:</h4>
           <h2 class="h2-responsive">{{cartTotal}}</h2>
-          <button class="btn btn-danger">Checkout</button>
+          <button class="btn btn-danger" ui-sref="checkout">Checkout</button>
           <button class="btn btn-warning" ng-click="resetCart()">Reset Cart</button>
           <button class="btn btn-default" ng-click="goBack()">Go Back Shopping</button>
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- Loader -->
+<div class="loader" ng-if="!isLoaded">
+  <div class="sk-cube-grid">
+    <div class="sk-cube sk-cube1"></div>
+    <div class="sk-cube sk-cube2"></div>
+    <div class="sk-cube sk-cube3"></div>
+    <div class="sk-cube sk-cube4"></div>
+    <div class="sk-cube sk-cube5"></div>
+    <div class="sk-cube sk-cube6"></div>
+    <div class="sk-cube sk-cube7"></div>
+    <div class="sk-cube sk-cube8"></div>
+    <div class="sk-cube sk-cube9"></div>
   </div>
 </div>

@@ -36,6 +36,12 @@ angular.module('mountainShop').service('MountainModel', function ($http) {
         modify: mod
       };
       return $http.post('http://localhost:3457/modify-quantity', data);
+    },
+    cartPurge: function(user_id) {
+      var data = {
+        email: user_id,
+      };
+      return $http.post('http://localhost:3457/cart-purge', data);
     }
   }
 });

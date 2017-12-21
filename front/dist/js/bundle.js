@@ -27,12 +27,24 @@ angular.module('mountainShop').config(function ($stateProvider, $urlRouterProvid
     name: 'cart',
     url: '/cart',
     component: 'cart',
+  };
+  var accountState = {
+    name: 'account',
+    url: '/account',
+    component: 'account'
+  };
+  var checkoutState = {
+    name: 'checkout',
+    url: '/checkout',
+    component: 'checkout'
   }
 
   $stateProvider.state(homeState);
   $stateProvider.state(productsState);
   $stateProvider.state(productDetailsState);
   $stateProvider.state(cartState);
+  $stateProvider.state(accountState);
+  $stateProvider.state(checkoutState);
 });
 
 angular.module('mountainShop').config(function (paginationTemplateProvider) {
@@ -176,6 +188,12 @@ angular.module('mountainShop').service('MountainModel', function ($http) {
         modify: mod
       };
       return $http.post('http://localhost:3457/modify-quantity', data);
+    },
+    cartPurge: function(user_id) {
+      var data = {
+        email: user_id,
+      };
+      return $http.post('http://localhost:3457/cart-purge', data);
     }
   }
 });
@@ -849,6 +867,7 @@ angular.module('mountainShop').controller('cartController', function ($scope, $s
       $scope.cartEmpty = true;
     }
     _cartTotal($scope.carts);
+    $scope.isLoaded = true;
   } else {
     $scope.carts = [];
     // Check Cart Empty
@@ -858,6 +877,7 @@ angular.module('mountainShop').controller('cartController', function ($scope, $s
       $scope.cartEmpty = true;
     }
     _cartTotal($scope.carts);
+    $scope.isLoaded = true;
   }
 
   function _goBack() {
@@ -865,8 +885,29 @@ angular.module('mountainShop').controller('cartController', function ($scope, $s
   }
 
   function _resetCart() {
+    if ($scope.user_email != '' && $scope.token != '') {
+      MountainModel.cartPurge($scope.user_email).then(
+        function (res) {
+          swal({
+            type: 'success',
+            title: res.data.message,
+            showConfirmButton: false,
+            timer: 1000
+          });
+          $state.reload();
+        },
+        function (res) {
+          swal({
+            title: 'Oops...',
+            text: res.data.message,
+            type: 'error'
+          });
+        }
+      );
+    } else {
     localStorage.setItem('user-cart', null);
     $state.reload();
+    }
   }
 
   function _cartTotal(array) {
@@ -1044,14 +1085,23 @@ angular.module('mountainShop').controller('cartController', function ($scope, $s
       function (res) {
         $scope.carts = res.data;
         _cartTotal($scope.carts);
+        $scope.isLoaded = true;
       },
       function (res) {
         $scope.carts = [];
         $scope.cartEmpty = true;
         _cartTotal($scope.carts);
+        $scope.isLoaded = true;
       }
     );
   }
+});
+angular.module('mountainShop').component('checkout', {
+  templateUrl: 'src/js/components/checkout/checkout-view.html',
+  controller: 'checkoutController'
+});
+angular.module('mountainShop').controller('checkoutController', function ($scope, $state, $stateParams, $http) {
+  $scope.isLoaded = false;
 });
 angular.module('mountainShop').component('home', {
   templateUrl: 'src/js/components/home/home-view.html',
@@ -1086,7 +1136,6 @@ angular.module('mountainShop').controller('productDetailsController', function (
       $scope.isLoaded = true;
     },
     function (res) {
-      $scope.isLoaded = true;
       swal({
         title: 'Oops...',
         text: res.data.message,
@@ -1245,4 +1294,11 @@ angular.module('mountainShop').controller('productsController', function ($scope
       }
     }
   }
+});
+angular.module('mountainShop').component('account', {
+  templateUrl: 'src/js/components/account/account-view.html',
+  controller: 'accountController'
+});
+angular.module('mountainShop').controller('accountController', function ($scope, $state, $stateParams, $http) {
+  $scope.isLoaded = false;
 });

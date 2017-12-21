@@ -20,7 +20,6 @@ angular.module('mountainShop').controller('productDetailsController', function (
       $scope.isLoaded = true;
     },
     function (res) {
-      $scope.isLoaded = true;
       swal({
         title: 'Oops...',
         text: res.data.message,
