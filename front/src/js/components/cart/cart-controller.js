@@ -92,12 +92,12 @@ angular.module('mountainShop').controller('cartController', function ($scope, $s
       var found = false;
       var numb = -1;
       for (var i = $scope.carts.length - 1; i >= 0; i--) {
-        if ($scope.carts[i].ref == prod.ref) {
+        if (Number($scope.carts[i].ref) == prod.ref) {
           found = true;
           numb = i;
         }
       }
-      if (!found) {
+      if (found) {
         $scope.carts.splice(numb, 1);
         localStorage.setItem('user-cart', JSON.stringify($scope.carts));
         swal({
@@ -106,11 +106,13 @@ angular.module('mountainShop').controller('cartController', function ($scope, $s
           showConfirmButton: false,
           timer: 1000
         });
+        _cartTotal($scope.carts);
       } else {
         swal({
           type: 'error',
-          title: 'No product found with the ref ' + prod.ref + ' in the cart'
+          title: 'No product found with the ref ' + prod.ref + ' in the cart '
         });
+        console.log($scope.carts);
       }
     }
   }
