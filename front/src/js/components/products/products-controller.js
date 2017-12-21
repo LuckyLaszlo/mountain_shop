@@ -79,7 +79,7 @@ angular.module('mountainShop').controller('productsController', function ($scope
       } else {
         swal({
           type: 'error',
-          title: 'Already in the cart, Grand fou'
+          title: 'Already in the cart, Grand fou ( ͡° ͜ʖ ͡° )'
         });
       }
     }

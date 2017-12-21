@@ -151,7 +151,7 @@ app.post('/modify-quantity', function (req, res) {
   var _ref = Number(body.ref);
   carts.find({ email: body.email }).toArray(function (err, docs) {
     if (docs[0]) {
-      // Verification, if the product is present in the cart
+      // Search the position of the product in the cart
       var found = false;
       for (var i = docs[0].cart.length - 1; i >= 0; i--) {
         if (docs[0].cart[i].ref == Number(body.ref)) {
