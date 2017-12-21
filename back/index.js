@@ -76,7 +76,7 @@ app.get('/cart/:id', function (req, res) {
     if (docs[0].cart[0]) {
       res.status(200).send(docs[0].cart);
     } else {
-      res.status(204).send({message: 'Cart empty. Hurry up ! Buy something !'});
+      res.status(404).send({message: 'Cart empty. Hurry up ! Buy something !'});
     }
 
   });

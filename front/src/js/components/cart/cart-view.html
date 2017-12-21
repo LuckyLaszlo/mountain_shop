@@ -12,28 +12,29 @@
       <div class="row">
         <div class="col-md-8">
           <ul class="list-group">
-            <li ng-repeat="cart in carts" class="list-group-item d-flex flex-row justify-content-start align-items-center p-1">
+            <li ng-if="!cartEmpty" ng-repeat="cart in carts" class="list-group-item d-flex flex-row justify-content-start align-items-center p-1">
               <div class="cart-display">
                 <img class="img-fluid" ng-src="src/img/products/{{cart.type}}/{{cart.image}}.jpg" alt="product image">
               </div>
               <div class="row container-fluid">
                 <div class="col-12 col-md-4">
                   <p>{{cart.brand}}
-                  <br>{{cart.name}}</p>
+                    <br>{{cart.name}}</p>
                 </div>
                 <div class="col-md-4">
                   <p>Color: {{cart.color}}
-                  <br>Size: {{cart.size}}</p>
+                    <br>Size: {{cart.size}}</p>
                 </div>
                 <div class="col-md-2">
-                  <p>{{'$' + cart.price}}</p>
+                  <p>one: {{'$' + cart.price}}
+                    <br>all: {{'$' + (cart.price * cart.quantity)}}</p>
                 </div>
                 <div class="col-12 d-flex justify-content-end">
-                  <a ng-click="test()">
+                  <a ng-click="plus(cart)">
                     <i class="fa fa-plus" aria-hidden="true"></i>
                   </a>
-                  <p class="mx-2">1</p>
-                  <a ng-click="test()">
+                  <p class="mx-2">{{cart.quantity}}</p>
+                  <a ng-click="minus(cart)">
                     <i class="fa fa-minus" aria-hidden="true"></i>
                   </a>
                   <a ng-click="delFromCart(cart)" class="red-text ml-4">
@@ -42,6 +43,7 @@
                 </div>
               </div>
             </li>
+            <li ng-if="cartEmpty" class="list-group-item flex-center"><p>Cart is Empty !</p></li>
           </ul>
         </div>
         <div class="col-md-4 mt-2">
