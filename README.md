@@ -6,7 +6,15 @@ EN: An e-commerce selling coats and other stuff for the mountain ;). Inexpensive
 
 
 Setup instructions :
+------------------
 
+Node.js and MongoDB are needed to run the backend.
+
+https://nodejs.org
+
+https://docs.mongodb.com/manual/administration/install-community/
+
+---------------------------
 
 1. Install and Launch MongoDB
 
