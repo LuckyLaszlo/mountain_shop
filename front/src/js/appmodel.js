@@ -42,6 +42,9 @@ angular.module('mountainShop').service('MountainModel', function ($http) {
         email: user_id,
       };
       return $http.post('http://localhost:3457/cart-purge', data);
+    },
+    tokenCheck: function(token) {
+      return $http.get('http://localhost:3457/token-check/' + token);
     }
   }
 });

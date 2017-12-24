@@ -62,14 +62,17 @@ function tokenCheck(token) {
 
 app.get('/cart/:id', function (req, res) {
   var _id = req.params.id;
-  carts.find({ email: _id }).toArray(function (err, docs) {
-    if (docs[0].cart[0]) {
-      res.status(200).send(docs[0].cart);
-    } else {
-      res.status(404).send({message: 'Cart empty. Hurry up ! Buy something !'});
-    }
-
-  });
+    carts.find({ email: _id }).toArray(function (err, docs) {
+      if (docs[0]) {
+        if (docs[0].cart[0]) {
+          res.status(200).send(docs[0].cart);
+        } else {
+          res.status(404).send({message: 'Cart empty. Hurry up ! Buy something !'});
+        }
+      } else {
+        res.status(404).send({message: 'User not found'});
+      }
+    });
 });
 //----------------------------------------
 
@@ -279,6 +282,15 @@ app.post('/register', function (req, res) {
     res.status(412).send({
       message: 'You should provide all the required fields: email, password'
     });
+  }
+});
+
+app.get('/token-check/:token', function (req, res) {
+  var token = req.params.token;
+  if (tokenCheck(token)) {
+    res.status(200).send(true);
+  } else {
+    res.status(404).send(false);
   }
 });
 

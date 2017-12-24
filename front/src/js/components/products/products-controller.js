@@ -10,8 +10,8 @@ angular.module('mountainShop').controller('productsController', function ($scope
   $scope.resetSearch = _resetSearch;
   $scope.addToCart = _addToCart;
 
-  $scope.token = '';
-  $scope.user_email = '';
+  $scope.token = null;
+  $scope.user_email = null;
   $scope.token = localStorage.getItem('auth-token');
   $scope.user_email = localStorage.getItem('user-email');
   $scope.initCart = JSON.parse(localStorage.getItem('user-cart'));
@@ -36,7 +36,7 @@ angular.module('mountainShop').controller('productsController', function ($scope
   };
 
   function _addToCart(prod) {
-    if ($scope.user_email != '' && $scope.token != '') {
+    if ($scope.token && $scope.token != null && $scope.user_email && $scope.user_email != null) {
       MountainModel.cartAdd($scope.user_email, prod.ref).then(
         function (res) {
           swal({

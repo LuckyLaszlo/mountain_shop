@@ -1,15 +1,30 @@
 angular.module('mountainShop').controller('shopController', function ($scope, $state, $stateParams, $http, $timeout, MountainModel) {
   $scope.isLoaded = false;
+  $scope.token = null;
+  $scope.user_email = null;
+  $scope.logged = false;
+  $scope.token = localStorage.getItem('auth-token');
+  $scope.user_email = localStorage.getItem('user-email');
+
   $scope.login = _login;
   $scope.register = _register;
   $scope.logout = _logout;
-  $scope.auth = '';
-  $scope.user_email = '';
-  $scope.logged = false;
-  $scope.auth = localStorage.getItem('auth-token');
-  $scope.user_email = localStorage.getItem('user-email');
-  $scope.isLoaded = true;
-  if ($scope.auth !== '' && $scope.user_email !== '') $scope.logged = true;
+
+  if ($scope.token && $scope.token != null) {
+    MountainModel.tokenCheck($scope.token).then(
+      function (res) {
+        $scope.logged = res.data;
+        $scope.isLoaded = true;
+      },
+      function (res) {
+        $scope.logged = false;
+        $scope.isLoaded = true;
+      }
+    );
+  } else {
+    $scope.logged = false;
+    $scope.isLoaded = true;
+  }
 
   function _login() {
     var data = {
@@ -45,15 +60,15 @@ angular.module('mountainShop').controller('shopController', function ($scope, $s
   }
 
   function _logout() {
-    localStorage.setItem('auth-token', '');
-    localStorage.setItem('user-email', '');
+    localStorage.setItem('auth-token', null);
+    localStorage.setItem('user-email', null);
     $scope.logged = false;
     swal({
       title: 'Logged out',
       text: 'You are now anonymous',
       type: 'info',
       showConfirmButton: false,
-      timer: 2000
+      timer: 1500
     });
     $state.reload();
   }
@@ -76,7 +91,7 @@ angular.module('mountainShop').controller('shopController', function ($scope, $s
               text: res.data.message,
               type: 'success',
               showConfirmButton: false,
-              timer: 2000
+              timer: 1500
             });
             $state.reload();
           }

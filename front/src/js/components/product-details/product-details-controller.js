@@ -2,8 +2,8 @@ angular.module('mountainShop').controller('productDetailsController', function (
   $scope.isLoaded = false;
   $scope.goBack = _goBack;
   $scope.addToCart = _addToCart;
-  $scope.token = '';
-  $scope.user_email = '';
+  $scope.token = null;
+  $scope.user_email = null;
   $scope.token = localStorage.getItem('auth-token');
   $scope.user_email = localStorage.getItem('user-email');
   $scope.initCart = JSON.parse(localStorage.getItem('user-cart'));
@@ -34,7 +34,7 @@ angular.module('mountainShop').controller('productDetailsController', function (
   }
 
   function _addToCart() {
-    if ($scope.user_email != '' && $scope.token != '') {
+    if ($scope.token && $scope.token != null && $scope.user_email && $scope.user_email != null) {
       MountainModel.cartAdd($scope.user_email, $stateParams.productRef).then(
         function (res) {
           swal({
@@ -74,15 +74,13 @@ angular.module('mountainShop').controller('productDetailsController', function (
           type: 'success',
           title: 'Hop hop hop ! In the cart !',
           showConfirmButton: false,
-          timer: 1000
+          timer: 1500
         });
-        $state.go('cart');
       } else {
         swal({
           type: 'error',
           title: 'Already in the cart, Grand fou'
         });
-        $state.go('products');
       }
     }
   }

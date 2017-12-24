@@ -7,14 +7,14 @@ angular.module('mountainShop').controller('cartController', function ($scope, $s
   $scope.plus = _plus;
   $scope.minus = _minus;
 
-  $scope.token = '';
-  $scope.user_email = '';
+  $scope.token = null;
+  $scope.user_email = null;
   $scope.token = localStorage.getItem('auth-token');
   $scope.user_email = localStorage.getItem('user-email');
   $scope.initCart = JSON.parse(localStorage.getItem('user-cart'));
   
   // -------------------- GET LIST OF PRODUCT IN CART -------------------
-  if ($scope.token != '' && $scope.user_email != '') {
+  if ($scope.token && $scope.token != null && $scope.user_email && $scope.user_email != null) {
     _getUserCart();
   } else if ($scope.initCart != null) {
     $scope.carts = JSON.parse(localStorage.getItem('user-cart'));
@@ -43,7 +43,7 @@ angular.module('mountainShop').controller('cartController', function ($scope, $s
   }
 
   function _resetCart() {
-    if ($scope.user_email != '' && $scope.token != '') {
+    if ($scope.token && $scope.token != null && $scope.user_email && $scope.user_email != null) {
       MountainModel.cartPurge($scope.user_email).then(
         function (res) {
           swal({
@@ -78,7 +78,7 @@ angular.module('mountainShop').controller('cartController', function ($scope, $s
 
   // -------------------- DELETE PRODUCT FROM CART -------------------
   function _delFromCart(prod) {
-    if ($scope.user_email != '' && $scope.token != '') {
+    if ($scope.token && $scope.token != null && $scope.user_email && $scope.user_email != null) {
       MountainModel.cartDelete($scope.user_email, prod.ref).then(
         function (res) {
           swal({
@@ -147,7 +147,7 @@ angular.module('mountainShop').controller('cartController', function ($scope, $s
 
   // -------------------- ADD QUANTITY TO PRODUCT IN CART -------------------
   function _plus(prod) {
-    if ($scope.user_email != '' && $scope.token != '') {
+    if ($scope.token && $scope.token != null && $scope.user_email && $scope.user_email != null) {
       var modPlus = "+";
       MountainModel.cartModify($scope.user_email, prod.ref, modPlus).then(
         function (res) {
@@ -191,7 +191,7 @@ angular.module('mountainShop').controller('cartController', function ($scope, $s
 
   // -------------------- MINUS QUANTITY TO PRODUCT IN CART -------------------
   function _minus(prod) {
-    if ($scope.user_email != '' && $scope.token != '') {
+    if ($scope.token && $scope.token != null && $scope.user_email && $scope.user_email != null) {
       if (prod.quantity > 1) {
         var modMinus = "-";
         MountainModel.cartModify($scope.user_email, prod.ref, modMinus).then(
