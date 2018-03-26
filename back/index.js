@@ -100,7 +100,7 @@ app.post('/cart-add', function (req, res) {
         res.status(400).send({ message: 'Already in the cart, Grand fou ( ͡° ͜ʖ ͡° )' })
       }
     } else {
-      res.status(404).send({ message: 'No cart found for user ' + body.id });
+      res.status(404).send({ message: 'No cart found for user \'' + body.email + "'" });
     }
   });
 });
@@ -127,7 +127,7 @@ app.post('/cart-delete', function (req, res) {
         res.status(404).send({ message: 'No product found with the ref ' + body.ref + ' in the cart' });
       }
     } else {
-      res.status(404).send({ message: 'No cart found for user ' + body.id });
+      res.status(404).send({ message: "No cart found for user " + body.email });
     }
   });
 });
@@ -252,6 +252,9 @@ app.post('/login', function (req, res) {
   }
 });
 
+
+// app.post('/register) pourrais être meilleure avec "Customer.create"
+
 app.post('/register', function (req, res) {
   var body = req.body;
   if (body.email && body.password) {
@@ -295,6 +298,7 @@ app.get('/token-check/:token', function (req, res) {
 });
 
 // Stoping to use port 3000 because it's the default browser-sync port
-app.listen(3457, function () {
-  console.log('BACKEND LISTENING ON PORT 3457');
+var port = 3457;
+app.listen(port, function () {
+  console.log('BACKEND LISTENING ON PORT ' + port);
 });

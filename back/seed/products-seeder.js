@@ -82,7 +82,7 @@ var products = [
         color: 'Black',
         size: '9',
         quantity: 1,
-        message: "FREE ITEM !IMMEDIATE DELIVERY (By Luke himself) ! Knitted acrylic/polyamid glove - nitrile foam coating on palm, fingers and half back",
+        message: "FREE ITEM ! IMMEDIATE DELIVERY (By Luke himself) (*One per client, in the limit of the available stock) ! Knitted acrylic/polyamid glove - nitrile foam coating on palm, fingers and half back",
     }),
     new Product({
         ref: 28709,
